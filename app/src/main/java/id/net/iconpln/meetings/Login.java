@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import javax.crypto.IllegalBlockSizeException;
@@ -51,6 +52,8 @@ public class Login extends ActionBarActivity {
     String text;
     SessionManager session;
 
+    HashMap<String, String> user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,8 @@ public class Login extends ActionBarActivity {
         edittext_password = (EditText) findViewById(R.id.edittext_password);
         button_login = (Button) findViewById(R.id.button_login);
         textview_lupapassword = (TextView) findViewById(R.id.textview_lupapassword);
+
+        session = new SessionManager(getApplicationContext());
 
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +87,8 @@ public class Login extends ActionBarActivity {
 
         try {
             // JSON data:
-            json.put("user", "fiand");
-            json.put("pass", "KKeqTPROAYU=");
+            json.put("user", edittext_username.getText());
+            json.put("pass", edittext_password.getText());
 
             JSONArray postjson=new JSONArray();
             postjson.put(json);
@@ -128,10 +133,6 @@ public class Login extends ActionBarActivity {
         }
     }
 
-    private void setteks() {
-        textview_lupapassword.setText(text);
-    }
-
     public class Masuk extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
 
@@ -149,15 +150,10 @@ public class Login extends ActionBarActivity {
         @Override
         protected String doInBackground(String... arg0) {
             url = "http://" + globalVar.serverIPaddress + "/meetings/login.php";
-            try {
-                postData(url);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-            JSONParser jParser = new JSONParser();
             JSONObject json = null;
             try {
+                postData(url);
                 json = new JSONObject(text);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -190,14 +186,16 @@ public class Login extends ActionBarActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             pDialog.dismiss();
-            setteks();
             if(success==null)
                 return;
             if (success.equals("1")) {
                 //a = new Intent(Login.this, MyAccount.class);
                 //startActivity(a);
                 //finish();
-                Toast.makeText(getApplicationContext(), "berhasil", Toast.LENGTH_LONG).show();
+                user = session.getUserDetails();
+                String test = user.get(SessionManager.KEY_NAMA);
+                Toast.makeText(getApplicationContext(), "Selamat datang " + test, Toast.LENGTH_LONG).show();
+                success = "0";
             } else {
                 Toast.makeText(getApplicationContext(), "NIPG/Kata sandi tidak sesuai", Toast.LENGTH_LONG).show();
             }
