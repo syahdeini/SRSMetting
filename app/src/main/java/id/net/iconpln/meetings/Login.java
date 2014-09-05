@@ -46,8 +46,10 @@ public class Login extends ActionBarActivity {
     Button button_login;
     TextView textview_lupapassword;
 
+    String success;
     String url;
     String text;
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +74,16 @@ public class Login extends ActionBarActivity {
         });
     }
 
-    public void postData() throws JSONException {
+    public void postData(String url) throws JSONException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://192.168.1.1/test/post.php");
+        HttpPost httppost = new HttpPost(url);
         JSONObject json = new JSONObject();
 
         try {
             // JSON data:
-            json.put("name", "Fahmi Rahman");
-            json.put("position", "sysdev");
+            json.put("user", "fiand");
+            json.put("pass", "KKeqTPROAYU=");
 
             JSONArray postjson=new JSONArray();
             postjson.put(json);
@@ -119,7 +121,6 @@ public class Login extends ActionBarActivity {
                 text = sb.toString();
             }
 
-            //Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
         }catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
         } catch (IOException e) {
@@ -147,14 +148,20 @@ public class Login extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... arg0) {
+            url = "http://" + globalVar.serverIPaddress + "/meetings/login.php";
             try {
-                postData();
+                postData(url);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             JSONParser jParser = new JSONParser();
-            JSONObject json = jParser.getJSONFromUrl(url);
+            JSONObject json = null;
+            try {
+                json = new JSONObject(text);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             try {
                 success = json.getString("success");
@@ -164,14 +171,11 @@ public class Login extends ActionBarActivity {
                     for (int i = 0; i < hasil.length(); i++) {
                         JSONObject c = hasil.getJSONObject(i);
 
-                        String nipg = c.getString("nipg").trim();
-                        String nama_pekerja = c.getString("nama_pekerja").trim();
-                        String hak_akses = c.getString("hak_akses").trim();
-                        String last_login = c.getString("last_login").trim();
-                        String sum_login = c.getString("sum_login").trim();
-                        String foto = c.getString("foto").trim();
-                        String id_pic = c.getString("id_pic").trim();
-                        session.createLoginSession(nipg, nama_pekerja, hak_akses, last_login, sum_login, foto,id_pic);
+                        String id_user = c.getString("id_user").trim();
+                        String id_divisi = c.getString("id_divisi").trim();
+                        String nama = c.getString("nama").trim();
+                        String email = c.getString("email").trim();
+                        session.createLoginSession(id_user, id_divisi, nama, email);
                     }
                 } else {
                     Log.e("erro", "tidak bisa ambil data 0");
@@ -187,15 +191,16 @@ public class Login extends ActionBarActivity {
             super.onPostExecute(result);
             pDialog.dismiss();
             setteks();
-            /*if(success==null)
+            if(success==null)
                 return;
             if (success.equals("1")) {
-                a = new Intent(MainActivity.this, MyAccount.class);
-                startActivity(a);
-                finish();
+                //a = new Intent(Login.this, MyAccount.class);
+                //startActivity(a);
+                //finish();
+                Toast.makeText(getApplicationContext(), "berhasil", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getApplicationContext(), "NIPG/Kata sandi tidak sesuai", Toast.LENGTH_LONG).show();
-            }*/
+            }
         }
     }
 
