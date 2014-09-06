@@ -42,6 +42,9 @@ import srsmeeting.iconpln.net.id.srsmeeting.R;
 
 
 public class Login extends ActionBarActivity {
+    SessionManager session;
+    HashMap<String, String> user;
+    ProgressDialog pDialog;
 
     EditText edittext_username, edittext_password;
     Button button_login;
@@ -50,9 +53,8 @@ public class Login extends ActionBarActivity {
     String success;
     String url;
     String text;
-    SessionManager session;
 
-    HashMap<String, String> user;
+    Intent a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +136,6 @@ public class Login extends ActionBarActivity {
     }
 
     public class Masuk extends AsyncTask<String, String, String> {
-        ProgressDialog pDialog;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -189,15 +189,16 @@ public class Login extends ActionBarActivity {
             if(success==null)
                 return;
             if (success.equals("1")) {
-                //a = new Intent(Login.this, MyAccount.class);
-                //startActivity(a);
-                //finish();
                 user = session.getUserDetails();
                 String test = user.get(SessionManager.KEY_NAMA);
                 Toast.makeText(getApplicationContext(), "Selamat datang " + test, Toast.LENGTH_LONG).show();
                 success = "0";
+
+                a = new Intent(Login.this, Dokumen.class);
+                startActivity(a);
+                finish();
             } else {
-                Toast.makeText(getApplicationContext(), "NIPG/Kata sandi tidak sesuai", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Username/Password tidak sesuai", Toast.LENGTH_LONG).show();
             }
         }
     }

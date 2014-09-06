@@ -15,5 +15,8 @@
     <string name="hello_world">Icon+ Meeting(s) Logo</string>
     <string name="title_activity_register">Register</string>
     <string name="textview_lupapassword">Lupa Password?</string>
+    <string name="title_activity_dokumen">Dokumen</string>
+    <string name="button_search">Search</string>
+    <string name="edittext_search">Masukkan kata kunci</string>
 
 </resources>

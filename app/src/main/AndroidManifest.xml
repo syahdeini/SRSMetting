@@ -24,8 +24,13 @@
             android:name="id.net.iconpln.meetings.Register"
             android:label="@string/title_activity_register" >
         </activity>
+        <activity
+            android:name="id.net.iconpln.meetings.Dokumen"
+            android:label="@string/title_activity_dokumen" >
+        </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET">
+
+    <uses-permission android:name="android.permission.INTERNET" >
     </uses-permission>
 
 </manifest>
