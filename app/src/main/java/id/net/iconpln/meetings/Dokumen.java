@@ -3,6 +3,10 @@ package id.net.iconpln.meetings;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -26,15 +30,20 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -51,6 +60,9 @@ public class Dokumen extends Activity {
 
     String url;
     String text;
+
+    String id_dokumen;
+    String nama_dokumen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +141,7 @@ public class Dokumen extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(Dokumen.this);
-            pDialog.setMessage("Sedang mengambil data");
+            pDialog.setMessage("Mengambil data");
             pDialog.setCancelable(false);
             pDialog.show();
         }
@@ -186,7 +198,7 @@ public class Dokumen extends Activity {
         for(int i=0; i<MyArrList.size(); i++)
         {
             final int finalI = i;
-            String nama_dokumen = MyArrList.get(i).get("nama_dokumen");
+            nama_dokumen = MyArrList.get(i).get("nama_dokumen");
             if(nama_dokumen.length()>34)
                 nama_dokumen = nama_dokumen.substring(0, 30) + " ...";
             String nama = MyArrList.get(i).get("nama");
@@ -195,6 +207,7 @@ public class Dokumen extends Activity {
             Button but = new Button(this);
             String[] id = MyArrList.get(i).get("id_dokumen").split("-");
             but.setId(Integer.parseInt(id[1]));
+            but.setHint(MyArrList.get(i).get("id_dokumen"));
             but.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             but.setText(Html.fromHtml(nama_dokumen + "<br/><font color=\"blue\"><small>" + waktu_upload + "<br/>oleh: " + nama + "</small></font>"));
             but.setGravity(Gravity.LEFT);
@@ -202,6 +215,10 @@ public class Dokumen extends Activity {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    id_dokumen = MyArrList.get(finalI).get("id_dokumen");
+                    nama_dokumen = MyArrList.get(finalI).get("nama_dokumen");
+                    new unduh_dokumen().execute();
+
                     /*dialog_rca_view = new Dialog(SemuaRCA.this);
                     dialog_rca_view.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog_rca_view.setContentView(R.layout.dialog_rca_view);
@@ -275,5 +292,123 @@ public class Dokumen extends Activity {
             });
             layout.addView(but);
         }
+    }
+
+    public class unduh_dokumen extends AsyncTask<String, String, String> {
+        File dokumen;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(Dokumen.this);
+            pDialog.setMessage("Mengunduh dokumen");
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... arg0) {
+            try {
+                File saveDir = new File(android.os.Environment.getExternalStorageDirectory().toString() + "/ICON+Meetings/Dokumen");
+
+                if(!saveDir.exists()){
+                    saveDir.mkdirs();
+                }
+
+                URL url = new URL("http://" + globalVar.serverIPaddress + "/meetings/dokumen.php?id_dokumen=" + id_dokumen);
+                dokumen = new File(saveDir,nama_dokumen);
+
+                URLConnection uconn = url.openConnection();
+                uconn.setReadTimeout(15000);
+                uconn.setConnectTimeout(15000);
+
+                InputStream is = uconn.getInputStream();
+                BufferedInputStream bis = new BufferedInputStream(is);
+
+                ByteArrayBuffer baf = new ByteArrayBuffer(5000);
+                int current;
+                while((current = bis.read()) != -1){
+                    baf.append((byte) current);
+                }
+
+                FileOutputStream fos = new FileOutputStream( dokumen);
+                fos.write(baf.toByteArray());
+                fos.flush();
+                fos.close();
+            }
+            catch(IOException e) {
+                Log.e("DownloadManager", "Error:" + e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
+            File myFile = dokumen;
+            try {
+                openFile(getApplicationContext(), myFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void openFile(Context context, File url) throws IOException {
+        // Create URI
+        File file=url;
+        Uri uri = Uri.fromFile(file);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        // Check what kind of file you are trying to open, by comparing the url with extensions.
+        // When the if condition is matched, plugin sets the correct intent (mime) type,
+        // so Android knew what application to use to open the file
+        if (url.toString().contains(".doc") || url.toString().contains(".docx")) {
+            // Word document
+            intent.setDataAndType(uri, "application/msword");
+        } else if(url.toString().contains(".pdf")) {
+            // PDF file
+            intent.setDataAndType(uri, "application/pdf");
+        } else if(url.toString().contains(".ppt") || url.toString().contains(".pptx")) {
+            // Powerpoint file
+            intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
+        } else if(url.toString().contains(".xls") || url.toString().contains(".xlsx")) {
+            // Excel file
+            intent.setDataAndType(uri, "application/vnd.ms-excel");
+        } else if(url.toString().contains(".zip") || url.toString().contains(".rar")) {
+            // WAV audio file
+            intent.setDataAndType(uri, "application/x-wav");
+        } else if(url.toString().contains(".rtf")) {
+            // RTF file
+            intent.setDataAndType(uri, "application/rtf");
+        } else if(url.toString().contains(".wav") || url.toString().contains(".mp3")) {
+            // WAV audio file
+            intent.setDataAndType(uri, "audio/x-wav");
+        } else if(url.toString().contains(".gif")) {
+            // GIF file
+            intent.setDataAndType(uri, "image/gif");
+        } else if(url.toString().contains(".jpg") || url.toString().contains(".jpeg") || url.toString().contains(".png")) {
+            // JPG file
+            intent.setDataAndType(uri, "image/jpeg");
+        } else if(url.toString().contains(".txt")) {
+            // Text file
+            intent.setDataAndType(uri, "text/plain");
+        } else if(url.toString().contains(".3gp") || url.toString().contains(".mpg") || url.toString().contains(".mpeg") || url.toString().contains(".mpe") || url.toString().contains(".mp4") || url.toString().contains(".avi")) {
+            // Video files
+            intent.setDataAndType(uri, "video/*");
+        } else {
+            //if you want you can also define the intent type for any other file
+
+            //additionally use else clause below, to manage other unknown extensions
+            //in this case, Android will show all applications installed on the device
+            //so you can choose which application to use
+            intent.setDataAndType(uri, "*/*");
+        }
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 }

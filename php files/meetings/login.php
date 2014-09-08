@@ -4,7 +4,6 @@ if (!$conn) {
     $e = oci_error();
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
-
 $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
 
