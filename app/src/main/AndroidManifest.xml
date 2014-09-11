@@ -28,6 +28,8 @@
             android:name="id.net.iconpln.meetings.Dokumen"
             android:label="@string/title_activity_dokumen" >
         </activity>
+        <activity android:name="id.net.iconpln.meetings.LupaPassword"
+            android:label="Lupa Password"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" >

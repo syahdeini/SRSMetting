@@ -33,5 +33,14 @@ public class Main extends Activity {
                 startActivity(a);
             }
         });
+        button_register.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View v) {
+                Intent registerIntent= new Intent(Main.this,Register.class);
+                startActivity(registerIntent);
+            }
+        });
     }
 }

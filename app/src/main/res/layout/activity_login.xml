@@ -71,7 +71,8 @@
                 android:text="@string/textview_lupapassword"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:clickable="true"/>
+                android:clickable="true"
+               />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

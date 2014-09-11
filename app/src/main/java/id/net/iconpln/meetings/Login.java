@@ -79,6 +79,16 @@ public class Login extends ActionBarActivity {
                 }
             }
         });
+        textview_lupapassword.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v) {
+                Intent lupaPasswordIntent = new Intent(Login.this, LupaPassword.class);
+                startActivity(lupaPasswordIntent);
+                finish();
+            }
+        });
     }
 
     public void postData(String url) throws JSONException {
@@ -135,6 +145,15 @@ public class Login extends ActionBarActivity {
         }
     }
 
+    public void lupaPasswordClick(View view) {
+        try {
+
+        }catch(Exception e)
+        {
+            Log.d("DEBUG IN LOGIN","EXCEPTION KENA"+e.toString());
+        }
+    }
+
     public class Masuk extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
@@ -174,10 +193,11 @@ public class Login extends ActionBarActivity {
                         session.createLoginSession(id_user, id_divisi, nama, email);
                     }
                 } else {
-                    Log.e("erro", "tidak bisa ambil data 0");
+                    Log.e("error", "tidak bisa ambil data, return success = 0");
                 }
             } catch (Exception e) {
-                Log.e("erro", "tidak bisa ambil data 1");
+                Log.e("error", "tidak bisa ambil data dari return value php (json) ");
+          //      Log.e("error ",e.getMessage().toString());
             }
             return null;
         }
