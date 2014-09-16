@@ -39,16 +39,17 @@ public class LupaPassword extends Activity {
     SessionManager session;
     HashMap<String, String> user;
 
-    String to,subject,message;
+    String to, subject, message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lupa_password);
-        resetPasswordButton = (Button)findViewById(R.id.LupaPasswordbutton);
+        resetPasswordButton = (Button) findViewById(R.id.LupaPasswordbutton);
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                to = ((EditText)findViewById(R.id.lupaPasswordEditText)).getText().toString();
+                to = ((EditText) findViewById(R.id.lupaPasswordEditText)).getText().toString();
                 new Masuk().execute();
 
             }
@@ -68,7 +69,9 @@ public class LupaPassword extends Activity {
             pDialog.setCancelable(true);
             pDialog.show();
         }
+
         JSONObject json = new JSONObject();
+
         @Override
         protected String doInBackground(String... arg0) {
             url = "http://" + globalVar.serverIPaddress + "/meetings/lupaPassword.php";
@@ -76,45 +79,47 @@ public class LupaPassword extends Activity {
 
             try {
                 postData(url);
-                Log.e("ERROR HUY",text);
+                Log.e("ERROR HUY", text);
                 json = new JSONObject(text);
             } catch (JSONException e) {
-                Log.e("ERROR AFTER POST DATA",e.toString());
+                Log.e("ERROR AFTER POST DATA", e.toString());
                 e.printStackTrace();
             }
 
             try {
                 success = json.getString("success");
-               // JSONArray hasil = json.getJSONArray ("login");
+                // JSONArray hasil = json.getJSONArray ("login");
 
                 if (success.equals("1")) {
                     //for (int i = 0; i < hasil.length(); i++) {
-                     //   JSONObject c = hasil.getJSONObject(i);
-                        Log.e("debug", "masuk lupa password");
-                        // sending email to email
-                        String getPassword= json.getString("password");
-                        String userName = json.getString("username");
-                        message="Here is your username : "+userName+" and passowrd : "+getPassword;
-                        Intent sendPass=new Intent(Intent.ACTION_SEND);
-                        sendPass.putExtra(Intent.EXTRA_EMAIL,new String[]{"syahdeini@gmail.com"});
-                        sendPass.putExtra(Intent.EXTRA_SUBJECT,"subject");
-                        sendPass.putExtra(Intent.EXTRA_TEXT,message);
-                        sendPass.setType("meassge/rfc822");
-                        startActivity(Intent.createChooser(sendPass,"choose:"));
-               //        Toast.makeText(getApplicationContext(), "Password dan username sudah di kirim ke email anda ", Toast.LENGTH_LONG).show();
-                   //     finish();
+                    //   JSONObject c = hasil.getJSONObject(i);
+                    Log.e("debug", "masuk lupa password");
+                    Mail mailT = new Mail();
+                    mailT.send();
 
-                 //   }
-                } else if(success.equals("0")) {
-                  //  Toast.makeText(getApplicationContext(), " Data tidak ditemukan, tolong periksa email anda ", Toast.LENGTH_LONG).show();
+                    // sending email to email
+                    String getPassword = json.getString("password");
+                    String userName = json.getString("username");
+                    message = "Here is your username : " + userName + " and passowrd : " + getPassword;
+                    Intent sendPass = new Intent(Intent.ACTION_SEND);
+                    sendPass.putExtra(Intent.EXTRA_EMAIL, new String[]{"syahdeini@gmail.com"});
+                    sendPass.putExtra(Intent.EXTRA_SUBJECT, "subject");
+                    sendPass.putExtra(Intent.EXTRA_TEXT, message);
+                    sendPass.setType("meassge/rfc822");
+                    startActivity(Intent.createChooser(sendPass, "choose:"));
+                    //        Toast.makeText(getApplicationContext(), "Password dan username sudah di kirim ke email anda ", Toast.LENGTH_LONG).show();
+                    //     finish();
+
+                    //   }
+                } else if (success.equals("0")) {
+                    //  Toast.makeText(getApplicationContext(), " Data tidak ditemukan, tolong periksa email anda ", Toast.LENGTH_LONG).show();
                     Log.e("error", "data untuk password tidak dapat di temukan");
-                }
-                else {
-                 //   Toast.makeText(getApplicationContext(), " koneksi database bermasalah "+success.toString(), Toast.LENGTH_LONG).show();
+                } else {
+                    //   Toast.makeText(getApplicationContext(), " koneksi database bermasalah "+success.toString(), Toast.LENGTH_LONG).show();
 
                 }
             } catch (Exception e) {
-                Log.e("error", "tidak bisa ambil data Lupa password "+e.toString());
+                Log.e("error", "tidak bisa ambil data Lupa password " + e.toString());
             }
             return null;
         }
@@ -123,10 +128,10 @@ public class LupaPassword extends Activity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             pDialog.dismiss();
-            if(success==null)
+            if (success == null)
                 return;
             if (success.equals("1")) {
-                String getPassword= null;
+                String getPassword = null;
                 try {
                     getPassword = json.getString("password");
                 } catch (JSONException e) {
@@ -152,10 +157,11 @@ public class LupaPassword extends Activity {
                 startActivity(loginAgain);
                 finish();
             } else {
-                Toast.makeText(getApplicationContext(), "Koneksi bermasalah "+success.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Koneksi bermasalah " + success.toString(), Toast.LENGTH_LONG).show();
             }
         }
     }
+
     public void postData(String url) throws JSONException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
@@ -164,21 +170,20 @@ public class LupaPassword extends Activity {
 
         try {
             // JSON data:
-            json.put("email", ((EditText)findViewById(R.id.lupaPasswordEditText)).getText().toString());
-            JSONArray postjson=new JSONArray();
+            json.put("email", ((EditText) findViewById(R.id.lupaPasswordEditText)).getText().toString());
+            JSONArray postjson = new JSONArray();
             postjson.put(json);
 
             // Post the data:
-            httppost.setHeader("json",json.toString());
-            httppost.getParams().setParameter("jsonpost",postjson);
+            httppost.setHeader("json", json.toString());
+            httppost.getParams().setParameter("jsonpost", postjson);
 
             // Execute HTTP Post Request
             System.out.print(json);
             HttpResponse response = httpclient.execute(httppost);
 
             // for JSON:
-            if(response != null)
-            {
+            if (response != null) {
                 InputStream is = response.getEntity().getContent();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -201,7 +206,7 @@ public class LupaPassword extends Activity {
                 text = sb.toString();
             }
 
-        }catch (ClientProtocolException e) {
+        } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
         } catch (IOException e) {
             // TODO Auto-generated catch block
