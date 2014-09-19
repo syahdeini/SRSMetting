@@ -214,7 +214,7 @@ public class Login extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Selamat datang " + test, Toast.LENGTH_LONG).show();
                 success = "0";
 
-                a = new Intent(Login.this, Dokumen.class);
+                a = new Intent(Login.this, Beranda.class);
                 startActivity(a);
                 finish();
             } else {

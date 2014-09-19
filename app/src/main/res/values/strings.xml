@@ -18,5 +18,9 @@
     <string name="title_activity_dokumen">Dokumen</string>
     <string name="button_search">Search</string>
     <string name="edittext_search">Masukkan kata kunci</string>
+    <string name="title_activity_daftar_rapat">daftar_rapat</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_activity_manage_rapat">Manage_rapat</string>
+    <string name="title_activity_manage_peserta_rapat">managePesertaRapat</string>
 
 </resources>

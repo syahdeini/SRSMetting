@@ -28,8 +28,25 @@
             android:name="id.net.iconpln.meetings.Dokumen"
             android:label="@string/title_activity_dokumen" >
         </activity>
-        <activity android:name="id.net.iconpln.meetings.LupaPassword"
-            android:label="Lupa Password"></activity>
+        <activity
+            android:name="id.net.iconpln.meetings.LupaPassword"
+            android:label="Lupa Password" />
+        <activity
+            android:name="id.net.iconpln.meetings.daftar_rapat"
+            android:label="@string/title_activity_daftar_rapat" >
+        </activity>
+        <activity
+            android:name="id.net.iconpln.meetings.Beranda"
+            android:label="@string/title_activity_menu" >
+        </activity>
+        <activity
+            android:name="id.net.iconpln.meetings.Manage_rapat"
+            android:label="@string/title_activity_manage_rapat" >
+        </activity>
+        <activity
+            android:name="id.net.iconpln.meetings.managePesertaRapat"
+            android:label="@string/title_activity_manage_peserta_rapat" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" >
