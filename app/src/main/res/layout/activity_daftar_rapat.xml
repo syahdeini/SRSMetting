@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,77 +9,105 @@
     tools:context="id.net.iconpln.meetings.daftar_rapat"
     android:orientation="vertical">
 
+<ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:text="@string/hello_world"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/scrollView">
-
-    <AbsoluteLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/absoluteLayout"
+        android:orientation="vertical"
+        android:id="@+id/relativeLayout1"
         >
-        <TextView
-            android:text="@string/hello_world"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2" />
-
-
-        <DatePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/WaktuMulai_datePicker"
-            android:layout_x="144dp"
-            android:layout_y="12dp"
-            android:calendarViewShown="false" />
-
-        <TimePicker
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/WaktuMulai_timePicker"
-            android:layout_x="398dp"
-            android:layout_y="12dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Waktu Mulai"
-            android:id="@+id/textView"
-            android:layout_x="8dp"
-            android:layout_y="66dp" />
+            android:paddingTop="30dp"
+            android:id="@+id/textView"/>
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/WaktuMulai_datePicker"
+            android:calendarViewShown="false"
+            android:layout_marginLeft="5dp"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            />
 
+        <TimePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/WaktuMulai_timePicker"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:paddingLeft="-15dp"
+            android:layout_marginLeft="-30dp"
+        />
+       </LinearLayout>
+
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Waktu Selesai"
             android:id="@+id/textView3"
-            android:layout_x="-3dp"
-            android:layout_y="216dp" />
-
+            android:paddingTop="30dp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <DatePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/WaktuSelesai_datePicker"
-            android:layout_x="146dp"
-            android:layout_y="166dp"
-            android:calendarViewShown="false" />
+            android:layout_marginLeft="5dp"
+            android:calendarViewShown="false"
+            android:scaleX=".7"
+            android:scaleY=".7"/>
 
         <TimePicker
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/WaktuSelesai_timePicker"
             android:layout_x="403dp"
-            android:layout_y="169dp" />
+            android:layout_y="169dp"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:layout_marginLeft="-30dp"
+            />
+        </LinearLayout>
+        </LinearLayout>
 
 
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,20 +117,21 @@
         android:layout_x="7dp"
         android:layout_y="384dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/aplikasiSpinner"
         android:layout_alignParentRight="true" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ruanganSpinner"
-        android:layout_x="138dp"
-        android:layout_y="373dp"
-        android:layout_marginTop="436dp"
-        android:layout_alignTop="@+id/scrollView"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="50dp" />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -111,29 +140,29 @@
         android:id="@+id/textView5"
         android:layout_x="11dp"
         android:layout_y="457dp"
-        android:layout_below="@+id/textView4"
         android:layout_alignParentRight="true" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/aplikasiSpinner"
-        android:layout_x="136dp"
-        android:layout_y="444dp"
-        android:layout_below="@+id/ruanganSpinner"
+        android:layout_marginLeft="50dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="136dp" />
+        android:layout_alignParentEnd="true" />
 
+    </LinearLayout>
 
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Penanggung jawab"
         android:id="@+id/textView6"
-        android:layout_marginLeft="39dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -146,52 +175,42 @@
         android:ems="10"
         android:id="@+id/penanggungJawabEditText"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="30dp"
+        />
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Peserta"
         android:id="@+id/textView7"
-        android:layout_marginTop="47dp"
-        android:layout_below="@+id/penanggungJawabEditText"
-        android:layout_alignLeft="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
         android:layout_marginLeft="52dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_alignTop="@+id/textView7"
-        android:layout_alignLeft="@+id/penanggungJawabEditText"
-        android:layout_alignStart="@+id/penanggungJawabEditText" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="manage peserta"
-        android:id="@+id/button"
-        android:layout_alignBottom="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_x="278dp"
-        android:layout_y="476dp" />
+        android:layout_marginLeft="50dp"
+        android:id="@+id/managePesertaBtn"
+         />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/submitRapat"
-        android:layout_below="@+id/editText"
-        android:layout_alignLeft="@+id/textView7"
-        android:layout_alignStart="@+id/textView7"
-        android:layout_marginTop="199dp"
-        android:layout_alignRight="@+id/textView6"
-        android:layout_alignEnd="@+id/textView6"
         android:layout_x="386dp"
         android:layout_y="425dp" />
 
@@ -200,15 +219,10 @@
         android:layout_height="wrap_content"
         android:text="cancel"
         android:id="@+id/button3"
-        android:layout_marginTop="250dp"
-        android:layout_alignBottom="@+id/submitRapat"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText"
-        android:layout_x="532dp"
-        android:layout_y="474dp" />
+        android:layout_marginLeft="200dp"
+/>
 
-
-    </AbsoluteLayout>
-    </ScrollView>
-
-</RelativeLayout>
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

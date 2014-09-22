@@ -1,6 +1,7 @@
 package id.net.iconpln.meetings;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -79,7 +80,16 @@ public class daftar_rapat extends ActionBarActivity {
 
             };
         });
+       final Button managePesertaBtn = (Button)findViewById(R.id.managePesertaBtn);
+        managePesertaBtn.setOnClickListener(new View.OnClickListener(){
 
+
+            @Override
+            public void onClick(View v) {
+                Intent managePesertaRapatActivity = new Intent(daftar_rapat.this,managePesertaRapat.class);
+                startActivity(managePesertaRapatActivity);
+            }
+        });
     }
 
     // Handler saat rapat disubmit
