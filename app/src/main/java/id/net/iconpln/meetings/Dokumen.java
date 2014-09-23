@@ -210,7 +210,7 @@ public class Dokumen extends Activity {
             but.setHint(MyArrList.get(i).get("id_dokumen"));
             but.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             but.setText(Html.fromHtml(nama_dokumen + "<br/><font color=\"blue\"><small>" + waktu_upload + "<br/>oleh: " + nama + "</small></font>"));
-            but.setGravity(Gravity.LEFT);
+            but.setGravity(Gravity.START);
 
             but.setOnClickListener(new View.OnClickListener() {
                 @Override

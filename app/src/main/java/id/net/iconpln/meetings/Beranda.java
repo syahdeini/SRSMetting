@@ -39,7 +39,8 @@ public class Beranda extends ActionBarActivity {
         button_kelolaJadwalRapat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent a = new Intent(Beranda.this, Manage_rapat.class);
+                startActivity(a);
             }
         });
         button_cariDokumenRapat.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +50,5 @@ public class Beranda extends ActionBarActivity {
                 startActivity(a);
             }
         });
-
     }
-
 }
