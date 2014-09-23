@@ -218,76 +218,6 @@ public class Dokumen extends Activity {
                     id_dokumen = MyArrList.get(finalI).get("id_dokumen");
                     nama_dokumen = MyArrList.get(finalI).get("nama_dokumen");
                     new unduh_dokumen().execute();
-
-                    /*dialog_rca_view = new Dialog(SemuaRCA.this);
-                    dialog_rca_view.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog_rca_view.setContentView(R.layout.dialog_rca_view);
-                    dialog_rca_view.setCancelable(true);
-
-                    labNamaPekerja = (TextView) dialog_rca_view.findViewById(R.id.labNamaPekerja);
-                    labNamaPekerja.setText(MyArrList.get(finalI).get("nama_pekerja"));
-                    labTanggal = (TextView) dialog_rca_view.findViewById(R.id.labTanggal);
-                    labTanggal.setText(MyArrList.get(finalI).get("tgl_lapor"));
-                    labLokasiRCA = (TextView) dialog_rca_view.findViewById(R.id.labLokasiRCA);
-                    labLokasiRCA.setText(MyArrList.get(finalI).get("lokasi_rca"));
-                    labNamaPIC = (TextView) dialog_rca_view.findViewById(R.id.labNamaPIC);
-                    labNamaPIC.setText(MyArrList.get(finalI).get("nama_pic"));
-                    labSeverity = (TextView) dialog_rca_view.findViewById(R.id.labSeverity);
-                    labSeverity.setText(MyArrList.get(finalI).get("severity"));
-                    labNamaIndikator = (TextView) dialog_rca_view.findViewById(R.id.labNamaIndikator);
-                    labNamaIndikator.setText(MyArrList.get(finalI).get("nama_indikator"));
-                    labRincianTemuan = (TextView) dialog_rca_view.findViewById(R.id.labRincianTemuan);
-                    labRincianTemuan.setText(MyArrList.get(finalI).get("rincian_temuan"));
-                    labUsulanTindakLanjut = (TextView) dialog_rca_view.findViewById(R.id.labUsulanTindakLanjut);
-                    labUsulanTindakLanjut.setText(MyArrList.get(finalI).get("usulan_tindak_lanjut"));
-                    labStatus = (TextView) dialog_rca_view.findViewById(R.id.labStatus);
-                    labStatus.setText(MyArrList.get(finalI).get("status"));
-                    labTindakLanjut = (TextView) dialog_rca_view.findViewById(R.id.labTindakLanjut);
-                    labTindakLanjut.setText(MyArrList.get(finalI).get("tindak_lanjut"));
-                    lab10 = (TextView) dialog_rca_view.findViewById(R.id.lab10);
-
-                    txtTindakLanjut = (EditText) dialog_rca_view.findViewById(R.id.txtTindakLanjut);
-                    btn_closed = (Button) dialog_rca_view.findViewById(R.id.btn_closed);
-                    btn_cancel = (Button) dialog_rca_view.findViewById(R.id.btn_cancel);
-                    btn_ambilFoto = (Button) dialog_rca_view.findViewById(R.id.btn_ambilFoto);
-
-                    sfoto_awal = MyArrList.get(finalI).get("foto_awal");
-                    sfoto_akhir = MyArrList.get(finalI).get("foto_akhir");
-
-                    viewFotoAwal = (ImageView) dialog_rca_view.findViewById(R.id.viewFotoAwal);
-                    viewFotoAkhir = (ImageView) dialog_rca_view.findViewById(R.id.viewFotoAkhir);
-
-                    new foto().execute();
-
-                    txtTindakLanjut.setVisibility(View.GONE);
-                    btn_closed.setVisibility(View.GONE);
-                    btn_ambilFoto.setVisibility(View.GONE);
-
-                    txtTindakLanjut.setVisibility(View.GONE);
-                    btn_closed.setVisibility(View.GONE);
-                    btn_ambilFoto.setVisibility(View.GONE);
-
-                    if(labStatus.getText().toString().equals("Open")) {
-                        lab10.setVisibility(View.GONE);
-                        labTindakLanjut.setVisibility(View.GONE);
-                    }
-
-                    btn_cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                FileUtils.deleteDirectory(new File(android.os.Environment.getExternalStorageDirectory().toString() + "/PGN_RCA/temp"));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            ffoto_awal = ffoto_akhir = null;
-
-                            dialog_rca_view.dismiss();
-                        }
-                    });
-
-                    dialog_rca_view.show();*/
                 }
             });
             layout.addView(but);
@@ -314,7 +244,7 @@ public class Dokumen extends Activity {
                     saveDir.mkdirs();
                 }
 
-                URL url = new URL("http://" + globalVar.serverIPaddress + "/meetings/dokumen.php?id_dokumen=" + id_dokumen);
+                URL url = new URL("http://" + globalVar.serverIPaddress + "/meetings/unduh_dokumen.php?id_dokumen=" + id_dokumen);
                 dokumen = new File(saveDir,nama_dokumen);
 
                 URLConnection uconn = url.openConnection();

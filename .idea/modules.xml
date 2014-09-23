@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SRSMeeting.iml" filepath="$PROJECT_DIR$/SRSMeeting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SRSMetting.iml" filepath="$PROJECT_DIR$/SRSMetting.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
