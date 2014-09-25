@@ -197,7 +197,6 @@ public class Login extends ActionBarActivity {
                 }
             } catch (Exception e) {
                 Log.e("error", "tidak bisa ambil data dari return value php (json) ");
-          //      Log.e("error ",e.getMessage().toString());
             }
             return null;
         }
@@ -232,9 +231,6 @@ public class Login extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 }
