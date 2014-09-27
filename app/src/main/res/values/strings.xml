@@ -23,8 +23,11 @@
     <string name="title_activity_manage_rapat">Manage_rapat</string>
     <string name="title_activity_manage_peserta_rapat">managePesertaRapat</string>
     <string name="jadwalBaruBtn">Buat Jadwal Baru</string>
+    <string name="button_editUserAccount">Ubah Akun</string>
     <string name="button_lihatJadwalRapat">Lihat Jadwal Rapat</string>
     <string name="button_kelolaJadwalRapat">Kelola Jadwal Rapat</string>
     <string name="button_cariDokumenRapat">Cari Dokumen Rapat</string>
+    <string name="button_ubahAkun">Ubah Akun</string>
+    <string name="button_logout">Log out</string>
 
 </resources>

@@ -27,7 +27,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
-
+// Session belum diimplementasikan
 /**
  * Created by syahdieni on 07/09/14.
  */
@@ -35,7 +35,7 @@ public class LupaPassword extends Activity {
     Button resetPasswordButton;
     String success;
     String url;
-    String text;
+    String text,ID_USER;
     SessionManager session;
     HashMap<String, String> user;
 
@@ -43,7 +43,12 @@ public class LupaPassword extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+        session = new SessionManager(getApplicationContext());
+        user = session.getUserDetails();
+        ID_USER= user.get(SessionManager.KEY_ID_USER);
         setContentView(R.layout.lupa_password);
         resetPasswordButton = (Button) findViewById(R.id.LupaPasswordbutton);
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +107,7 @@ public class LupaPassword extends Activity {
                     String userName = json.getString("username");
                     message = "Here is your username : " + userName + " and passowrd : " + getPassword;
                     Intent sendPass = new Intent(Intent.ACTION_SEND);
-                    sendPass.putExtra(Intent.EXTRA_EMAIL, new String[]{"syahdeini@gmail.com"});
+                    sendPass.putExtra(Intent.EXTRA_EMAIL, new String[]{globalVar.emailAddressPengirim});
                     sendPass.putExtra(Intent.EXTRA_SUBJECT, "subject");
                     sendPass.putExtra(Intent.EXTRA_TEXT, message);
                     sendPass.setType("meassge/rfc822");
@@ -170,7 +175,7 @@ public class LupaPassword extends Activity {
 
         try {
             // JSON data:
-            json.put("email", ((EditText) findViewById(R.id.lupaPasswordEditText)).getText().toString());
+            json.put("id",ID_USER);
             JSONArray postjson = new JSONArray();
             postjson.put(json);
 

@@ -39,6 +39,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
 
@@ -54,11 +55,12 @@ public class daftar_rapat extends ActionBarActivity {
     ArrayList<String> nama_ruanganList=new ArrayList<String>();
     ArrayList<String> nama_aplikasiList=new ArrayList<String>();
     private ArrayAdapter<String> RuanganArrayAdapter,ApliasiArrayAdapter;
+    HashMap<String,String> listPeserta;
     private String ID_USER;
     //GUI Object
     Spinner ruanganSpinner;
     Spinner aplikasiSpinner;
-
+    int ACTIVITY_CODE=655;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +69,11 @@ public class daftar_rapat extends ActionBarActivity {
         session = new SessionManager(getApplicationContext());
         user = session.getUserDetails();
         ID_USER= user.get(SessionManager.KEY_ID_USER);
-       new getData().execute();
+        new getData().execute();
 
 
 
-       Button submitRapat=(Button)findViewById(R.id.submitRapat);
+        Button submitRapat=(Button)findViewById(R.id.submitRapat);
         submitRapat.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -80,29 +82,50 @@ public class daftar_rapat extends ActionBarActivity {
 
             };
         });
-       final Button managePesertaBtn = (Button)findViewById(R.id.managePesertaBtn);
+        final Button managePesertaBtn = (Button)findViewById(R.id.managePesertaBtn);
+
+
+
         managePesertaBtn.setOnClickListener(new View.OnClickListener(){
 
 
             @Override
             public void onClick(View v) {
                 Intent managePesertaRapatActivity = new Intent(daftar_rapat.this,managePesertaRapat.class);
-                startActivity(managePesertaRapatActivity);
+                startActivityForResult(managePesertaRapatActivity,ACTIVITY_CODE);
+//                startActivity(managePesertaRapatActivity);
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // if the results is coming from BROWSER_ACTIVATION_REQUEST
+        if (requestCode == ACTIVITY_CODE) {
+
+            // check the result code set by the activity
+            if (resultCode == RESULT_OK) {
+                try {
+                    listPeserta=globalVar.id_user_saver;
+                    // Log.e("CACA","CACACA");
+                } catch (Exception e)
+                {
+                    Log.e("RRR..... ERROR",e.toString());
+                }
+            }
+        }
+    }
     // Handler saat rapat disubmit
     private void Handler_submitRapat(View v)
     {
-       // DatePicker waktuMulai_dateP = (DatePicker)findViewById(R.id.WaktuMulai_datePicker);
+        // DatePicker waktuMulai_dateP = (DatePicker)findViewById(R.id.WaktuMulai_datePicker);
         //DatePicker waktuSelesai_dateP = (DatePicker)findViewById(R.id.WaktuSelesai_datePicker);
         //TimePicker waktuMulai_timeP = (TimePicker)findViewById(R.id.WaktuMulai_timePicker);
         //TimePicker waktuSelesai_timeP = (TimePicker)findViewById(R.id.WaktuSelesai_timePicker);
         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         //Date date = new Date();
-      //  System.out.println(dateFormat.format(date)); //2014/08/06 15:59:48
-     //   Toast.makeText(getApplicationContext(), dateFormat.format(date) , Toast.LENGTH_LONG).show();
+        //  System.out.println(dateFormat.format(date)); //2014/08/06 15:59:48
+        //   Toast.makeText(getApplicationContext(), dateFormat.format(date) , Toast.LENGTH_LONG).show();
         new submitData().execute();
     }
 
@@ -129,8 +152,8 @@ public class daftar_rapat extends ActionBarActivity {
 
 
 
-  // POPULATE PICKER WITH DATA
-  /****************************************************************/
+    // POPULATE PICKER WITH DATA
+    /****************************************************************/
     public void postData(String url) throws JSONException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
@@ -222,7 +245,7 @@ public class daftar_rapat extends ActionBarActivity {
                     nama_aplikasiList.add(c.getString("nama_aplikasi"));
                     dictAplikasi.put(c.getString("nama_aplikasi"),c.getString("id_aplikasi"));
                     MyArrListAplikasi.add(map);
-               }
+                }
                 for(int i=0; i<ruangan.length(); i++)
                 {
                     JSONObject c = ruangan.getJSONObject(i);
@@ -231,8 +254,9 @@ public class daftar_rapat extends ActionBarActivity {
                     map.put("nama_ruangan", c.getString("nama_ruangan"));
                     dictRuangan.put(c.getString("nama_ruangan"),c.getString("id_ruangan"));
                     nama_ruanganList.add(c.getString("nama_ruangan"));
-                     MyArrListAplikasi.add(map);
+                    MyArrListAplikasi.add(map);
                 }
+
 
             } catch (Exception e) {
                 Log.e("error", e.toString());
@@ -251,15 +275,14 @@ public class daftar_rapat extends ActionBarActivity {
     }
     // Populate Method
     private void populateView() {
-         ruanganSpinner = (Spinner)findViewById(R.id.ruanganSpinner);
-         aplikasiSpinner=(Spinner)findViewById(R.id.aplikasiSpinner);
+        ruanganSpinner = (Spinner)findViewById(R.id.ruanganSpinner);
+        aplikasiSpinner=(Spinner)findViewById(R.id.aplikasiSpinner);
         String[] dummyStr=nama_ruanganList.toArray(new String[nama_ruanganList.size()]);
         RuanganArrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,dummyStr);//nama_ruanganList.toArray(new String[nama_ruanganList.size()]));
         ruanganSpinner.setAdapter(RuanganArrayAdapter);
         dummyStr=nama_aplikasiList.toArray(new String[nama_aplikasiList.size()]);
         ApliasiArrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,dummyStr);
         aplikasiSpinner.setAdapter(ApliasiArrayAdapter);
-
     }
 
 
@@ -358,16 +381,26 @@ public class daftar_rapat extends ActionBarActivity {
 
 
             //Still zonk value
-            String perihal = "perihal";
-            String penanggungJawab="aldy";
-            String resumeHasil="Resume hasil";
+            String perihal = ((EditText)findViewById(R.id.perihalEditText)).getText().toString();
+            String penanggungJawab=((EditText)findViewById(R.id.penanggungJawabEditText)).getText().toString();
+            String resumeHasil="Belum ada Resume hasil";
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
             Date date = new Date();
             String tanggalBuat = dateFormat.format(date).toString(); //2014/08/06 15:59:48
             String pembuatJadwalID=ID_USER;
             String statusRapat="0";
 
+            String cor="";
             // get list of anggota rapat
+            int flag=0;
+            for(String key :listPeserta.keySet())
+            {
+                if(flag>0)cor+=",";
+                flag++;
+                cor+=listPeserta.get(key);
+            }
+
+            // cor+="}";
 
 
             //putting key to json
@@ -383,7 +416,8 @@ public class daftar_rapat extends ActionBarActivity {
             json.put("tanggalBuatRapat",tanggalBuat);
             json.put("pembuatJadwal",pembuatJadwalID);
             json.put("statusRapat",statusRapat);
-
+            // add array of String ID peserta rapat
+            json.put("listPeserta",cor);
 
 
             //  json.put("keyword", edittext_search.getText());
@@ -395,7 +429,7 @@ public class daftar_rapat extends ActionBarActivity {
             httppost.getParams().setParameter("jsonpost",postjson);
 
             // Execute HTTP Post Request
-          //  System.out.print(json);
+            //  System.out.print(json);
             HttpResponse response = httpclient.execute(httppost);
 
             // for JSON:
@@ -427,6 +461,7 @@ public class daftar_rapat extends ActionBarActivity {
         } catch (IOException e) {
             // TODO Auto-generated catch block
         }
+        //Toast.makeText(getApplicationContext(), "data sudah di submit" , Toast.LENGTH_LONG).show();
     }
 
 }

@@ -40,11 +40,11 @@ public class Mail extends javax.mail.Authenticator {
         _sport = "465";
         _to = new String[0];
         _to[0]="wilik016@gmail.com";
-        _user = "syahdeini@gmail.com";
-        _pass = "andayani92";
-        _from = "syahdeini@gmail.com";
-        _subject = "subject";
-        _body = "hello";
+        _user =globalVar.emailAddressPengirim;
+        _pass = globalVar.passwordEmail;
+        _from = globalVar.emailAddressPengirim;
+        _subject = "Password akun SRSMeeting";
+        _body = "";
         _debuggable = false; // debug mode on or off - default off
         _auth = true; // smtp authentication -default on
         _multipart = new MimeMultipart();

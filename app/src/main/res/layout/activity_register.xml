@@ -6,7 +6,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="id.net.iconpln.meetings.Register">
+    tools:context="id.net.iconpln.meetings.Register"
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -41,17 +42,14 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
-            <EditText
+
+            <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:ems="10"
-                android:id="@+id/divisiEditText"
                 android:layout_below="@+id/textView3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/textView"
-                android:layout_alignEnd="@+id/textView" />
+                android:id="@+id/spinnerDivisi">
+
+            </Spinner>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="Email"
                 android:id="@+id/textView4"
-                android:layout_below="@+id/divisiEditText"
+                android:layout_below="@+id/spinnerDivisi"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textStyle="bold"
@@ -158,27 +156,26 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:text="Submit"
-                android:id="@+id/SubmitButton"
-                android:layout_toEndOf="@+id/fullNameEditText"
-                android:layout_alignTop="@+id/CancelButton"
-                android:layout_toRightOf="@+id/fullNameEditText" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/repasswordEditText">
 
-            <Button
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:text="Cancel"
-                android:id="@+id/CancelButton"
-                android:layout_toEndOf="@+id/textView4"
-                android:layout_marginTop="51dp"
-                android:layout_below="@+id/repasswordEditText"
-                android:layout_alignLeft="@+id/repasswordEditText"
-                android:layout_alignStart="@+id/repasswordEditText" />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="0.5"
+                    android:text="Submit"
+                    android:id="@+id/SubmitButton"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="0.5"
+                    android:text="Cancel"
+                    android:id="@+id/CancelButton" />
+            </LinearLayout>
         </RelativeLayout>
-
     </ScrollView>
 </RelativeLayout>
 

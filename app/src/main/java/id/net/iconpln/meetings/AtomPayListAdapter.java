@@ -18,72 +18,79 @@ import srsmeeting.iconpln.net.id.srsmeeting.R;
 
 public class AtomPayListAdapter extends ArrayAdapter<AtomPayment> {
 
-	protected static final String LOG_TAG = AtomPayListAdapter.class.getSimpleName();
-	
-	private List<AtomPayment> items;
-	private int layoutResourceId;
-	private Context context;
+    protected static final String LOG_TAG = AtomPayListAdapter.class.getSimpleName();
 
-	public AtomPayListAdapter(Context context, int layoutResourceId, List<AtomPayment> items) {
-		super(context, layoutResourceId, items);
-		this.layoutResourceId = layoutResourceId;
-		this.context = context;
-		this.items = items;
-	}
+    private List<AtomPayment> items;
+    private int layoutResourceId;
+    private Context context;
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View row = convertView;
-		AtomPaymentHolder holder = null;
+    public AtomPayListAdapter(Context context, int layoutResourceId, List<AtomPayment> items) {
+        super(context, layoutResourceId, items);
+        this.layoutResourceId = layoutResourceId;
+        this.context = context;
+        this.items = items;
+    }
 
-		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-		row = inflater.inflate(layoutResourceId, parent, false);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View row = convertView;
+        AtomPaymentHolder holder = null;
 
-		holder = new AtomPaymentHolder();
-		holder.atomPayment = items.get(position);
-		holder.removePaymentButton = (ImageButton)row.findViewById(R.id.atomPay_removePay);
-		holder.removePaymentButton.setTag(holder.atomPayment);
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        row = inflater.inflate(layoutResourceId, parent, false);
 
-		holder.name = (TextView)row.findViewById(R.id.atomPay_name);
-		setNameTextChangeListener(holder);
+        holder = new AtomPaymentHolder();
+        holder.atomPayment = items.get(position);
+        holder.removePaymentButton = (ImageButton)row.findViewById(R.id.atomPay_removePay);
+        holder.removePaymentButton.setTag(holder.atomPayment);
+
+        holder.name = (TextView)row.findViewById(R.id.atomPay_name);
+        setNameTextChangeListener(holder);
 
 
-		row.setTag(holder);
+        row.setTag(holder);
 
-		setupItem(holder);
-		return row;
-	}
+        setupItem(holder);
+        return row;
+    }
 
-	private void setupItem(AtomPaymentHolder holder) {
-		holder.name.setText(holder.atomPayment.getName());
-		holder.value.setText(String.valueOf(holder.atomPayment.getValue()));
-	}
+    private void setupItem(AtomPaymentHolder holder) {
+        holder.name.setText(holder.atomPayment.getName());
+        try {
+            String a = String.valueOf(holder.atomPayment.getName());
+            holder.value.setText(a);
+        }
+        catch(Exception e)
+        {
+            Log.e("ERROR NIH",e.toString());
+        }
+    }
 
-	public static class AtomPaymentHolder {
-		AtomPayment atomPayment;
-		TextView name;
-		TextView value;
-		ImageButton removePaymentButton;
-	}
-	
-	private void setNameTextChangeListener(final AtomPaymentHolder holder) {
-		holder.name.addTextChangedListener(new TextWatcher() {
+    public static class AtomPaymentHolder {
+        AtomPayment atomPayment;
+        TextView name;
+        TextView value;
+        ImageButton removePaymentButton;
+    }
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				holder.atomPayment.setName(s.toString());
-			}
+    private void setNameTextChangeListener(final AtomPaymentHolder holder) {
+        holder.name.addTextChangedListener(new TextWatcher() {
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                holder.atomPayment.setName(s.toString());
+            }
 
-			@Override
-			public void afterTextChanged(Editable s) { }
-		});
-	}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
-	private void setValueTextListeners(final AtomPaymentHolder holder) {
-		holder.value.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+    }
+
+    private void setValueTextListeners(final AtomPaymentHolder holder) {
+		/*holder.value.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -92,6 +99,7 @@ public class AtomPayListAdapter extends ArrayAdapter<AtomPayment> {
 				}catch (NumberFormatException e) {
 					Log.e(LOG_TAG, "error reading double value: " + s.toString());
 				}
+
 			}
 
 			@Override
@@ -100,5 +108,6 @@ public class AtomPayListAdapter extends ArrayAdapter<AtomPayment> {
 			@Override
 			public void afterTextChanged(Editable s) { }
 		});
-	}
+		*/
+    }
 }

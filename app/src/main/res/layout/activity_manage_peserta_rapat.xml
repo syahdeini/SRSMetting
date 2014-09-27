@@ -14,38 +14,40 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/pesertaEditText"
+            android:id="@+id/namaPesertaEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Tuliskan Nama"
-            android:layout_weight=".75"/>
+            android:layout_weight=".6"/>
         <Button
             android:id="@+id/addPesertaButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="tambahkan"
             android:layout_weight=".25"/>
+        <Button
+            android:id="@+id/submitPersertaRapatBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="submit"
+            android:layout_weight=".25"/>
+
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout_buttons"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-
-        <LinearLayout
-            android:id="@+id/linear_layout_buttons"
-            android:orientation="vertical"
+        <ListView
+            android:id="@+id/EnterPays_atomPaysList"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <ListView
-                android:id="@+id/EnterPays_atomPaysList"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/atom_pay_list_item"
-                android:layout_below="@+id/EnterPays_addAtomPayment" >
-
-            </ListView>
-        </LinearLayout>
-    </ScrollView>
-
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/atom_pay_list_item"
+            android:layout_below="@+id/EnterPays_addAtomPayment" >
+        </ListView>
+    </LinearLayout>
 </LinearLayout>

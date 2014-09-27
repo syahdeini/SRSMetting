@@ -14,33 +14,69 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/jadwalBaruBtn"
-        android:id="@+id/jadwalBaruBtn"
-        android:layout_marginTop="59dp"
-        android:layout_below="@+id/textView" />
+        android:id="@+id/layout_satu"
+        android:orientation="horizontal"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="50dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="@string/jadwalBaruBtn"
+            android:id="@+id/jadwalBaruBtn" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="@string/button_lihatJadwalRapat"
+            android:id="@+id/button_lihatJadwalRapat" />
+    </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_lihatJadwalRapat"
-        android:id="@+id/button_lihatJadwalRapat"
-        android:layout_below="@id/jadwalBaruBtn" />
+        android:id="@+id/layout_dua"
+        android:orientation="horizontal"
+        android:layout_below="@id/layout_satu">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="@string/button_kelolaJadwalRapat"
+            android:id="@+id/button_kelolaJadwalRapat" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="@string/button_cariDokumenRapat"
+            android:id="@+id/button_cariDokumenRapat" />
+    </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_kelolaJadwalRapat"
-        android:id="@+id/button_kelolaJadwalRapat"
-        android:layout_below="@id/button_lihatJadwalRapat" />
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="100dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_cariDokumenRapat"
-        android:id="@+id/button_cariDokumenRapat"
-        android:layout_below="@id/button_kelolaJadwalRapat" />
-
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/button_ubahAkun"
+            android:id="@+id/button_ubahAkun" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="@string/button_logout"
+            android:id="@+id/button_logout" />
+    </LinearLayout>
 </RelativeLayout>
