@@ -1,6 +1,10 @@
 package id.net.iconpln.meetings;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +15,9 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.List;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
 
@@ -35,6 +42,7 @@ public class Main extends Activity {
             public void onClick(View arg0) {
                 Intent a = new Intent(Main.this, Login.class);
                 startActivity(a);
+                finish();
             }
         });
         button_register.setOnClickListener(new View.OnClickListener(){
@@ -44,5 +52,44 @@ public class Main extends Activity {
                 startActivity(registerIntent);
             }
         });
+    }
+
+    private boolean isLastActivity() {
+        final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningTaskInfo> tasksInfo = am.getRunningTasks(1024);
+
+        final String ourAppPackageName = getPackageName();
+        ActivityManager.RunningTaskInfo taskInfo;
+        final int size = tasksInfo.size();
+        for (int i = 0; i < size; i++) {
+            taskInfo = tasksInfo.get(i);
+            if (ourAppPackageName.equals(taskInfo.baseActivity.getPackageName())) {
+                return taskInfo.numActivities == 1;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isLastActivity()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Keluar?")
+                    .setMessage("Keluar dari aplikasi?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // kosong
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        } else {
+            super.onBackPressed(); // this will actually finish the Activity
+        }
     }
 }

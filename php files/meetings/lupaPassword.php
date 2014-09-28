@@ -1,21 +1,21 @@
 <?php
-$conn = oci_connect('system', '123456', 'localhost/XE');
+$conn = oci_connect('system', 'admin123', 'localhost/XE');
 if (!$conn) {
     $e = oci_error();
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-//$json = $_SERVER['HTTP_JSON'];
-//$data = json_decode($json);
+$json = $_SERVER['HTTP_JSON'];
+$data = json_decode($json);
 
 //$email = $data->email;
-$email="syahdeini@gmail.com";
+$id=$data->id;
 
-$sql = "SELECT * FROM SYAHDEINI.DAFTAR_USER ".
-       "WHERE email = :u_email";
+$sql = "SELECT * FROM WILIK.DDAFTAR_USER ".
+       "WHERE ID_USER = :u_id";
 	   	   
 $compiled = oci_parse($conn, $sql);
-oci_bind_by_name($compiled, ':u_email', $email);
+oci_bind_by_name($compiled, ':u_id', $id);
 $resultExec=oci_execute($compiled);
 
 $response = array();

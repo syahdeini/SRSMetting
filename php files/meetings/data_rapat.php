@@ -5,7 +5,7 @@ if (!$conn) {
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-$sql = "SELECT * FROM WILIK.drapat";
+$sql = "SELECT * FROM WILIK.DRAPAT, WILIK.DRUANGAN, WILIK.DDAFTAR_USER WHERE DRAPAT.id_ruangan = DRUANGAN.id_ruangan AND DRAPAT.pembuat_jadwal_id_user = DDAFTAR_USER.id_user";
 
 $compiled = oci_parse($conn, $sql);
 oci_execute($compiled);
@@ -26,6 +26,8 @@ while (($row = oci_fetch_row($compiled)) != false) {
 	$h['tanggal_buat_rapat']  		= $row[9];
 	$h['pembuat_jadwal_id_user'] 	= $row[10];
 	$h['status_rapat']				= $row[11];
+	$h['nama_ruangan']				= $row[13];
+	$h['nama_pembuat_jadwal']		= $row[16];
 	array_push($response["rapat"], $h);
 }
 

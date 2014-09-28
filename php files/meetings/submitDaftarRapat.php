@@ -1,5 +1,5 @@
 <?php
-$conn = oci_connect('system', '123456', 'localhost/XE');
+$conn = oci_connect('system', 'admin123', 'localhost/XE');
 if (!$conn) {
     $e = oci_error();
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
@@ -21,7 +21,7 @@ $resumeHasil = $data->resumeHasil;
 $tanggalBuatRapat = $data->tanggalBuatRapat;
 $pembuatJadwal = $data->pembuatJadwal;
 $statusRapat = $data->statusRapat; // convert to integer
-
+$listPeserta = explode(",",$data->listPeserta);
 /*
 $ruangan = "R 102";
 //$aplikasi = $aplikasi->aplikasi;
@@ -30,23 +30,29 @@ $dateSelesai= "2011/01/04";
 $timeStampMulai= "2011/11/11 14:00";
 $timeStampSelesai = "2013/05/15 13:00";
 $perihal = "perihal banyak";
-$penanggungJawab = "anang";
+$penanggungJawab = "anang,boning,canang";
 $resumeHasil = "hasil";
 $tanggalBuatRapat = "2014/05/03 21:13";
 $pembuatJadwal ="joko";
 $statusRapat = 1;
-*/
+$listAray=explode(",",$penanggungJawab);
+echo $listAray[2];
 //$listPeserta = s$data->listPeserta;
+*/
 
 
-$sql1="SELECT COUNT(*) FROM SYAHDEINI.RAPAT";
+// getting ID rapat
+$sql1="SELECT COUNT(*) FROM WILIK.DRAPAT";
 $compiled1 = oci_parse($conn, $sql1);
 $resultExec1=oci_execute($compiled1);
 $row1= oci_fetch_row($compiled1);
 $val= (int)$row1[0]+1;
 $id_rapat="RPT-".$val;
 //echo $id_rapat
-$sql = "INSERT INTO SYAHDEINI.RAPAT".
+
+
+
+$sql = "INSERT INTO WILIK.DRAPAT".
 		"(ID_RAPAT,
 ID_RUANGAN,
 TANGGAL_MULAI,
@@ -89,6 +95,22 @@ oci_bind_by_name($compiled, ':statusRapat', $statusRapat);
 
 $resultExec=oci_execute($compiled);
 
+// Submit anggota rapat di kolom rapat_anggota
+$sizeList=count($listPeserta);
+if($listPeserta!=null)
+{
+		for($j=0;$j<$sizeList;$j++)
+		{
+			$sqlOnes="INSERT INTO WILIK.DRAPAT_PESERTA (ID_PESERTA,ID_RAPAT,STATE_RP) VALUES(:id_peserta,:id_rapat,0)";
+			$compiled2 = oci_parse($conn, $sqlOnes);
+			oci_bind_by_name($compiled2, ':id_peserta', $listPeserta[$j]);
+			oci_bind_by_name($compiled2, ':id_rapat', $id_rapat);
+			oci_execute($compiled2);
+			//			$listPeserta[j];
+		}
+}
+
+
 $response = array();
 
 if ($resultExec==true) {
@@ -100,5 +122,7 @@ else {
     $response["message"] = "Tidak ada data";
 	echo json_encode($response);
 }
+
+
 
 ?>

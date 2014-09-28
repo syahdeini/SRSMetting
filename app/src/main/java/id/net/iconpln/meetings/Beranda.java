@@ -1,8 +1,11 @@
 package id.net.iconpln.meetings;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -40,8 +43,8 @@ public class Beranda extends ActionBarActivity {
         button_lihatJadwalRapat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent a = new Intent(Beranda.this, EditUserAccount.class);
-                //startActivity(a);
+                Intent a = new Intent(Beranda.this, LihatRapat.class);
+                startActivity(a);
             }
         });
         button_kelolaJadwalRapat.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +71,33 @@ public class Beranda extends ActionBarActivity {
         button_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                session.logoutUser();
-                finish();
-                Toast.makeText(getApplicationContext(), "Berhasil logout", Toast.LENGTH_SHORT).show();
+                inginLogout();
             }
         });
+    }
+
+    public void inginLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout?")
+                .setMessage("Apakah Anda ingin logout?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        session.logoutUser();
+                        finish();
+                        Toast.makeText(getApplicationContext(), "Berhasil logout", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // kosong
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        inginLogout();
     }
 }

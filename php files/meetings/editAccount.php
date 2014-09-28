@@ -5,41 +5,34 @@ if (!$conn) {
     trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
 }
 
-
 $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
 
+
+$iduser = $data->iduser;
 $fullName = $data->fullName;
-$divisi = $data->divisi;
+$divisi = (int)$data->divisi;
 $email = $data->email;
 $username= $data->username;
 $password = $data->password;
 
 
-$sql1="SELECT COUNT(*) FROM WILIK.DDAFTAR_USER";
-$compiled1 = oci_parse($conn, $sql1);
-$resultExec1=oci_execute($compiled1);
-$row1= oci_fetch_row($compiled1);
-$val= (int)$row1[0]+1;
-$id_rapat="USR".$val;
-
-/*
-$fullName = 'c';
+/*$fullName = 'c';
 $divisi = 5;
 $email = 'c';
 $username= 'c';
 $password = 'c';
 */
 
-$sql = "INSERT INTO WILIK.DDAFTAR_USER ".
-       "(id_user,id_divisi,nama,username,pass,email) VALUES (:iduser,:divisi,:fullName,:username,:password,:email)";
+$sql = "UPDATE WILIK.DDAFTAR_USER ".
+       "SET id_divisi=:divisi,nama=:fullName,username=:username,pass=:password,email=:email 
+	   WHERE id_user=:iduser";
 	   	   
 $compiled = oci_parse($conn, $sql);
-
-oci_bind_by_name($compiled, ':iduser', $id_rapat);
+oci_bind_by_name($compiled, ':iduser', $iduser);
 oci_bind_by_name($compiled, ':fullName', $fullName);
 oci_bind_by_name($compiled, ':divisi', $divisi);
-oci_bind_by_name($compiled, ':email',$email);
+oci_bind_by_name($compiled, ':email',$username);
 oci_bind_by_name($compiled, ':username',$username);
 oci_bind_by_name($compiled, ':password',$password);
 

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+    <ScrollView
+        android:id="@+id/ScrlView"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lab1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/perihal"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp"
+                android:layout_marginTop="4dip"/>
+
+            <TextView
+                android:id="@+id/textview_perihal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/lab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tanggal_mulai"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/textview_tanggal_mulai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lab3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jam_mulai"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textview_jam_mulai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lab4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tanggal_selesai"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textview_tanggal_selesai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lab5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/jam_selesai"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textview_jam_selesai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lab6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nama_ruangan"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textview_nama_ruangan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lab7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nama_pembuat_jadwal"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textview_nama_pembuat_jadwal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lab8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/penanggung_jawab"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textview_penanggung_jawab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lab9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resume_hasil"
+                android:textColor="#000000"
+                android:layout_marginLeft="8dip"
+                android:layout_marginStart="8dip"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textview_resume_hasil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000000"
+                android:layout_marginLeft="60dip"
+                android:layout_marginStart="8dip"
+                android:textSize="16sp" />
+
+            <Button
+                android:layout_marginTop="4dp"
+                android:id="@+id/button_batal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_batal">
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

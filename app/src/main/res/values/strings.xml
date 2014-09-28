@@ -50,5 +50,16 @@
     <string name="textview_email">Email</string>
     <string name="textview_masukan_ulang_password">Ketik ulang password</string>
     <string name="button_reset_password">Reset Password</string>
+    <string name="title_activity_lihat_rapat">Lihat Jadwal Rapat</string>
+
+    <string name="tanggal_mulai">Tanggal Mulai</string>
+    <string name="tanggal_selesai">Tanggal Selesai</string>
+    <string name="jam_mulai">Jam Mulai</string>
+    <string name="jam_selesai">Jam Selesai</string>
+    <string name="perihal">Perihal</string>
+    <string name="penanggung_jawab">Penanggung Jawab</string>
+    <string name="resume_hasil">Resume Hasil</string>
+    <string name="nama_ruangan">Nama Ruangan</string>
+    <string name="nama_pembuat_jadwal">Nama Pembuat Jadwal</string>
 
 </resources>

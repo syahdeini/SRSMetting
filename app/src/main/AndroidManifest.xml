@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="srsmeeting.iconpln.net.id.srsmeeting" >
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="id.net.iconpln.meetings.Main"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,9 +41,9 @@
         </activity>
         <activity
             android:name="id.net.iconpln.meetings.Beranda"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_menu"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="id.net.iconpln.meetings.Manage_rapat"
@@ -55,5 +57,10 @@
             android:name="id.net.iconpln.meetings.EditUserAccount"
             android:label="@string/title_activity_edit_user_account" >
         </activity>
+        <activity
+            android:name="id.net.iconpln.meetings.LihatRapat"
+            android:label="@string/title_activity_lihat_rapat" >
+        </activity>
     </application>
+
 </manifest>

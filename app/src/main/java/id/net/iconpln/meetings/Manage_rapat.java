@@ -315,7 +315,7 @@ public class Manage_rapat extends ActionBarActivity {
             but.setId(Integer.parseInt(id[1]));
             but.setHint(aMyArrList.get("id_rapat"));
             but.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            but.setText(Html.fromHtml("<big>Rapat (" + perihal + ")</big><br/><font color=\"blue\"><small>" + tanggal + ", " + jam + "-" + ruangan + "</small></font><br/>" +
+            but.setText(Html.fromHtml("<big>" + perihal + "</big><br/><font color=\"blue\"><small>" + tanggal + ", " + jam + "-" + ruangan + "</small></font><br/>" +
                     penanggungjawab));
             but.setGravity(Gravity.START);
 
