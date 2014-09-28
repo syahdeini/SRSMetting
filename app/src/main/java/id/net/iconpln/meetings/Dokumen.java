@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -69,6 +70,9 @@ public class Dokumen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dokumen);
 
+        session = new SessionManager(getApplicationContext());
+        session.checkLogin();
+
         edittext_search = (EditText) findViewById(R.id.edittext_search);
         button_search = (Button) findViewById(R.id.button_search);
 
@@ -81,6 +85,8 @@ public class Dokumen extends Activity {
                 new SearchDokumen().execute();
             }
         });
+
+        Toast.makeText(getApplicationContext(), "Klik untuk download dokumen", Toast.LENGTH_LONG).show();
     }
 
     public void postData(String url) throws JSONException {
@@ -172,6 +178,10 @@ public class Dokumen extends Activity {
                     map.put("status_dokumen", c.getString("status_dokumen"));
                     map.put("nama_dokumen", c.getString("nama_dokumen"));
                     map.put("tipe_file",c.getString("tipe_file"));
+                    map.put("perihal",c.getString("perihal"));
+                    map.put("tanggal_mulai",c.getString("tanggal_mulai"));
+                    map.put("jam_mulai",c.getString("jam_mulai"));
+                    map.put("nama_ruangan",c.getString("nama_ruangan"));
                     MyArrList.add(map);
                 }
 
@@ -203,13 +213,16 @@ public class Dokumen extends Activity {
                 nama_dokumen = nama_dokumen.substring(0, 30) + " ...";
             String nama = MyArrList.get(i).get("nama");
             String waktu_upload = MyArrList.get(i).get("waktu_upload").replaceAll(".000000", "");
+            String tanggal = MyArrList.get(i).get("tanggal_mulai");
+            String jam = MyArrList.get(i).get("jam_mulai").replaceAll(".000000", "").substring(9);
+            String ruangan = MyArrList.get(i).get("nama_ruangan");
 
             Button but = new Button(this);
             String[] id = MyArrList.get(i).get("id_dokumen").split("-");
             but.setId(Integer.parseInt(id[1]));
             but.setHint(MyArrList.get(i).get("id_dokumen"));
             but.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            but.setText(Html.fromHtml(nama_dokumen + "<br/><font color=\"blue\"><small>" + waktu_upload + "<br/>oleh: " + nama + "</small></font>"));
+            but.setText(Html.fromHtml("<big>Rapat (" + MyArrList.get(i).get("perihal") + ")</big><br/><font color=\"blue\"><small>" + tanggal + ", " + jam + "-" + ruangan + "</small><br/></font></big>" + nama_dokumen + "<br/><font color=\"blue\"><small>oleh: " + nama + "</small></font>"));
             but.setGravity(Gravity.START);
 
             but.setOnClickListener(new View.OnClickListener() {

@@ -62,14 +62,9 @@ public class Manage_rapat extends ActionBarActivity {
         setContentView(R.layout.activity_manage_rapat);
 
         session = new SessionManager(getApplicationContext());
+        session.checkLogin();
         user = session.getUserDetails();
         new AmbilDaftarRapat().execute();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.manage_rapat, menu);
-        return true;
     }
 
     @Override
@@ -140,7 +135,7 @@ public class Manage_rapat extends ActionBarActivity {
 
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Berkas tidak ditemukan", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Berkas tidak ditemukan\nTidak bisa upload foto/video", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -202,6 +197,8 @@ public class Manage_rapat extends ActionBarActivity {
                         });
                     }
 
+                    Toast.makeText(getApplicationContext(), "Berhasil upload dokumen", Toast.LENGTH_SHORT).show();
+
                     //close the streams //
                     fileInputStream.close();
                     dos.flush();
@@ -242,7 +239,6 @@ public class Manage_rapat extends ActionBarActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             pDialog.dismiss();
-            Toast.makeText(getApplicationContext(), "Berhasil upload dokumen", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -282,6 +278,7 @@ public class Manage_rapat extends ActionBarActivity {
                     map.put("tanggal_buat_rapat", c.getString("tanggal_buat_rapat"));
                     map.put("pembuat_jadwal_id_user", c.getString("pembuat_jadwal_id_user"));
                     map.put("status_rapat", c.getString("status_rapat"));
+                    map.put("nama_ruangan", c.getString("nama_ruangan"));
                     MyArrList.add(map);
                 }
 
@@ -298,6 +295,7 @@ public class Manage_rapat extends ActionBarActivity {
             if (pDialog.isShowing())
                 pDialog.dismiss();
             populateView();
+            Toast.makeText(getApplicationContext(), "Klik untuk upload dokumen", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -310,14 +308,14 @@ public class Manage_rapat extends ActionBarActivity {
             String penanggungjawab = aMyArrList.get("penanggungjawab");
             String tanggal = aMyArrList.get("tanggal_mulai");
             String jam = aMyArrList.get("jam_mulai").replaceAll(".000000", "").substring(9);
-            String ruangan = aMyArrList.get("id_ruangan");
+            String ruangan = aMyArrList.get("nama_ruangan");
 
             Button but = new Button(this);
             String[] id = aMyArrList.get("id_rapat").split("-");
             but.setId(Integer.parseInt(id[1]));
             but.setHint(aMyArrList.get("id_rapat"));
             but.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            but.setText(Html.fromHtml("<big>Rapat (" + perihal + ")</big><br/><font color=\"blue\"><small>" + tanggal + ", " + jam + "</small></font><br/>" +
+            but.setText(Html.fromHtml("<big>Rapat (" + perihal + ")</big><br/><font color=\"blue\"><small>" + tanggal + ", " + jam + "-" + ruangan + "</small></font><br/>" +
                     penanggungjawab));
             but.setGravity(Gravity.START);
 

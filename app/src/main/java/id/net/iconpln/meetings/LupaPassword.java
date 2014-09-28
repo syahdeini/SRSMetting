@@ -40,10 +40,10 @@ public class LupaPassword extends Activity {
     HashMap<String, String> user;
 
     String to, subject, message;
+    EditText edittext_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         session = new SessionManager(getApplicationContext());
@@ -51,12 +51,14 @@ public class LupaPassword extends Activity {
         ID_USER= user.get(SessionManager.KEY_ID_USER);
         setContentView(R.layout.lupa_password);
         resetPasswordButton = (Button) findViewById(R.id.LupaPasswordbutton);
+        edittext_email = (EditText) findViewById(R.id.edittext_email);
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                to = ((EditText) findViewById(R.id.lupaPasswordEditText)).getText().toString();
+                if(edittext_email.getText().toString().trim().equals(""))
+                    return;
+                to = ((EditText) findViewById(R.id.edittext_email)).getText().toString();
                 new Masuk().execute();
-
             }
         });
     }

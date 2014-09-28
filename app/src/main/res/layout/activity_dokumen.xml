@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:context="id.net.iconpln.meetings.Dokumen">
+    tools:context="id.net.iconpln.meetings.Dokumen"
+    android:background="@drawable/gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,13 +14,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/edittext_search"
-            android:layout_weight=".75"/>
+            android:layout_weight=".8"/>
         <Button
             android:id="@+id/button_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/button_search"
-            android:layout_weight=".25"/>
+            android:layout_weight=".2"/>
     </LinearLayout>
 
     <ScrollView

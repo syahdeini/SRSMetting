@@ -6,33 +6,47 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="id.net.iconpln.meetings.Beranda">
+    tools:context="id.net.iconpln.meetings.Beranda"
+    android:background="@drawable/gradient">
 
     <TextView
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:id="@+id/textview_main"
+        android:text="@string/textview_main"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_mainsub"
+        android:text="@string/textview_mainsub"
+        android:layout_below="@id/textview_main"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout_satu"
         android:orientation="horizontal"
-        android:layout_below="@id/textView"
-        android:layout_marginTop="50dp">
+        android:layout_below="@id/textview_mainsub"
+        android:layout_marginTop="20dp">
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:text="@string/jadwalBaruBtn"
-            android:id="@+id/jadwalBaruBtn" />
+            android:id="@+id/jadwalBaruBtn"
+            android:drawableTop="@drawable/button_buat_baru_100"
+            android:textSize="14sp"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:text="@string/button_lihatJadwalRapat"
-            android:id="@+id/button_lihatJadwalRapat" />
+            android:id="@+id/button_lihatJadwalRapat"
+            android:drawableTop="@drawable/button_lihat_100"
+            android:textSize="14sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -46,13 +60,17 @@
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:text="@string/button_kelolaJadwalRapat"
-            android:id="@+id/button_kelolaJadwalRapat" />
+            android:id="@+id/button_kelolaJadwalRapat"
+            android:drawableTop="@drawable/button_kelola_100"
+            android:textSize="12.5sp" />
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
             android:text="@string/button_cariDokumenRapat"
-            android:id="@+id/button_cariDokumenRapat" />
+            android:id="@+id/button_cariDokumenRapat"
+            android:drawableTop="@drawable/button_cari_100"
+            android:textSize="12.5sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -65,17 +83,21 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
+            android:drawableStart="@drawable/button_edit_profil_75"
+            android:drawableLeft="@drawable/button_edit_profil_75"
             android:text="@string/button_ubahAkun"
             android:id="@+id/button_ubahAkun" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.05"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.45"
+            android:drawableStart="@drawable/button_logout_75"
+            android:drawableLeft="@drawable/button_logout_75"
             android:text="@string/button_logout"
             android:id="@+id/button_logout" />
     </LinearLayout>

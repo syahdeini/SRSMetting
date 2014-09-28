@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,13 +13,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -37,9 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Set;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
 
@@ -67,11 +60,10 @@ public class daftar_rapat extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daftar_rapat);
         session = new SessionManager(getApplicationContext());
+        session.checkLogin();
         user = session.getUserDetails();
         ID_USER= user.get(SessionManager.KEY_ID_USER);
         new getData().execute();
-
-
 
         Button submitRapat=(Button)findViewById(R.id.submitRapat);
         submitRapat.setOnClickListener(new View.OnClickListener(){
@@ -85,6 +77,14 @@ public class daftar_rapat extends ActionBarActivity {
         final Button managePesertaBtn = (Button)findViewById(R.id.managePesertaBtn);
 
 
+        ((Button)findViewById(R.id.buttonBatal)).setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         managePesertaBtn.setOnClickListener(new View.OnClickListener(){
 
@@ -129,25 +129,11 @@ public class daftar_rapat extends ActionBarActivity {
         new submitData().execute();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.daftar_rapat, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
     }
 
 

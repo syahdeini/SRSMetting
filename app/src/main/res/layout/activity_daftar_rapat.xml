@@ -7,7 +7,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="id.net.iconpln.meetings.daftar_rapat"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/gradient">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -17,25 +18,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:text="@string/hello_world"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView2" />
+                android:id="@+id/textview_main"
+                android:text="@string/textview_main"
+                android:textSize="45sp"
+                android:layout_gravity="center" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_mainsub"
+                android:text="@string/textview_mainsub"
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView2"
                 android:orientation="vertical"
                 android:id="@+id/relativeLayout1"
-                >
-
+                android:paddingTop="30dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Waktu Mulai"
-                    android:paddingTop="30dp"
+                    android:text="@string/textview_waktumulai"
+                    android:textStyle="bold"
                     android:id="@+id/textView"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -51,8 +58,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/WaktuMulai_timePicker"/>
                 </LinearLayout>
-
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,10 +69,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Waktu Selesai"
+                    android:text="@string/textview_waktuselesai"
                     android:id="@+id/textView3"
-                    android:paddingTop="30dp"
-                    />
+                    android:textStyle="bold"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,146 +90,126 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="30dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Perihal"
+                    android:text="@string/textview_perihal"
                     android:id="@+id/textView10"
-                    android:layout_x="7dp"
-                    android:layout_y="384dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentRight="true" />
+                    android:textStyle="bold"/>
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="15"
                     android:id="@+id/perihalEditText"
+                    android:hint="@string/textview_perihal"
                     android:layout_marginLeft="70dp"
-                    />
+                    android:layout_marginStart="70dp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="30dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Ruangan"
-                    android:id="@+id/textView4"
-                    android:layout_x="7dp"
-                    android:layout_y="384dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentRight="true" />
-
+                    android:text="@string/textview_ruangan"
+                    android:textStyle="bold"
+                    android:id="@+id/textView4" />
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/ruanganSpinner"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="50dp" />
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="30dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Aplikasi"
+                    android:text="@string/textview_aplikasi"
                     android:id="@+id/textView5"
-                    android:layout_x="11dp"
-                    android:layout_y="457dp"
-                    android:layout_alignParentRight="true" />
-
+                    android:textStyle="bold"/>
                 <Spinner
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/aplikasiSpinner"
                     android:layout_marginLeft="55dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-
+                    android:layout_marginStart="55dp"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="30dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Penanggung jawab"
+                    android:text="@string/textview_penanggungjawab"
                     android:id="@+id/textView6"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-
+                    android:textStyle="bold"/>
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:text=""
                     android:ems="10"
                     android:id="@+id/penanggungJawabEditText"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginLeft="30dp"
-                    />
+                    android:layout_marginStart="30dp"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="30dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Peserta"
+                    android:text="@string/textview_peserta"
                     android:id="@+id/textView7"
-                    android:layout_marginLeft="52dp" />
+                    android:textStyle="bold"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="manage peserta"
-                    android:layout_marginLeft="50dp"
+                    android:text="@string/button_pilih_peserta"
                     android:id="@+id/managePesertaBtn"
-                    />
-
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="30dp">
-
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Submit"
-                    android:id="@+id/submitRapat"
-                    android:layout_x="386dp"
-                    android:layout_y="425dp" />
-
+                    android:layout_weight=".5"
+                    android:text="@string/button_submit"
+                    android:id="@+id/submitRapat" />
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="cancel"
-                    android:id="@+id/button3"
-                    android:layout_marginLeft="200dp"
-                    />
-
+                    android:layout_weight=".5"
+                    android:text="@string/button_batal"
+                    android:id="@+id/buttonBatal"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="id.net.iconpln.meetings.Main"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +39,9 @@
         </activity>
         <activity
             android:name="id.net.iconpln.meetings.Beranda"
-            android:label="@string/title_activity_menu" >
+            android:label="@string/title_activity_menu"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize">
         </activity>
         <activity
             android:name="id.net.iconpln.meetings.Manage_rapat"
@@ -49,6 +51,9 @@
             android:name="id.net.iconpln.meetings.managePesertaRapat"
             android:label="@string/title_activity_manage_peserta_rapat" >
         </activity>
+        <activity
+            android:name="id.net.iconpln.meetings.EditUserAccount"
+            android:label="@string/title_activity_edit_user_account" >
+        </activity>
     </application>
-
 </manifest>

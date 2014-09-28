@@ -21,6 +21,7 @@ public class Beranda extends ActionBarActivity {
         setContentView(R.layout.activity_menu);
 
         session = new SessionManager(getApplicationContext());
+        session.checkLogin();
 
         buatJadwalBaruBtn = (Button) findViewById(R.id.jadwalBaruBtn);
         button_lihatJadwalRapat = (Button) findViewById(R.id.button_lihatJadwalRapat);

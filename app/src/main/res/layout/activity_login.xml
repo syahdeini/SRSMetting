@@ -6,13 +6,30 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".Login">
+    tools:context=".Login"
+    android:background="@drawable/gradient">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_main"
+        android:text="@string/textview_main"
+        android:textSize="45sp"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_mainsub"
+        android:text="@string/textview_mainsub"
+        android:layout_below="@id/textview_main"
+        android:layout_centerHorizontal="true"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarStyle="insideInset"
         android:background="@color/transparent"
+        android:layout_below="@id/textview_mainsub"
         android:layout_marginTop="25dp"
         android:paddingBottom="25dp">
 
@@ -21,21 +38,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/logo_meetings"
-                android:contentDescription="@string/hello_world"/>
-
             <EditText
                 android:id="@+id/edittext_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:hint="@string/edittext_username"
+                android:layout_marginTop="18dp"
+                android:hint="@string/username"
                 android:paddingRight="10dp"
                 android:paddingLeft="10dp"
                 android:text="fiand" />
@@ -47,7 +57,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:hint="@string/edittext_password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:paddingRight="10dp"
                 android:paddingLeft="10dp"
@@ -71,8 +81,18 @@
                 android:text="@string/textview_lupapassword"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:clickable="true"
-               />
+                android:clickable="true" />
         </LinearLayout>
     </ScrollView>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageview"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/logo_icon"
+        android:contentDescription="@string/hello_world"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

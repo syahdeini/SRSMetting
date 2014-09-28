@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,15 +28,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.logging.Logger;
-
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.Cipher;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
 
@@ -59,6 +51,7 @@ public class Login extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
 
         edittext_username = (EditText) findViewById(R.id.edittext_username);
@@ -145,15 +138,6 @@ public class Login extends ActionBarActivity {
         }
     }
 
-    public void lupaPasswordClick(View view) {
-        try {
-
-        }catch(Exception e)
-        {
-            Log.d("DEBUG IN LOGIN","EXCEPTION KENA"+e.toString());
-        }
-    }
-
     public class Masuk extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
@@ -220,12 +204,6 @@ public class Login extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "Username/Password tidak sesuai", Toast.LENGTH_LONG).show();
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.login, menu);
-        return true;
     }
 
     @Override

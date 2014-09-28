@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,7 +96,6 @@ public class Register extends ActionBarActivity {
         });
     }
 
-
     private void initializeView() {
         submitButton = (Button) findViewById(R.id.SubmitButton);
         cancelButton = (Button) findViewById(R.id.CancelButton);
@@ -106,10 +106,6 @@ public class Register extends ActionBarActivity {
         repasswordTV = (EditText) findViewById(R.id.repasswordEditText);
     }
 
-
-    /************************************************
-     * CLASS
-     */
     class registerToSystem extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
         @Override
@@ -288,6 +284,7 @@ public class Register extends ActionBarActivity {
             // TODO Auto-generated catch block
         }
     }
+
     public class getDataDivisi extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {

@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
@@ -41,13 +42,20 @@ public class managePesertaRapat extends ActionBarActivity {
     EditText pesertaEditText;
     ArrayList<String> ID_pesertaS= new ArrayList<String>();
     private AtomPayListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_peserta_rapat);
 
         setupListViewAdapter();
-        addPesertaBtn= (Button)findViewById(R.id.addPesertaButton);
+        addPesertaBtn = (Button) findViewById(R.id.addPesertaButton);
+
+        // populating list of peserta
+        for(String key :globalVar.id_user_saver.keySet())
+        {
+            adapter.add(new AtomPayment(key));
+        }
 
         // Adding peserta button
         addPesertaBtn.setOnClickListener(new View.OnClickListener(){
@@ -86,14 +94,6 @@ public class managePesertaRapat extends ActionBarActivity {
         // setupAddPaymentButton();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.manage_peserta_rapat, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -106,7 +106,6 @@ public class managePesertaRapat extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public void removeAtomPayOnClickHandler(View v) {
         AtomPayment itemToRemove = (AtomPayment)v.getTag();
         globalVar.id_user_saver.remove(itemToRemove.getName());
@@ -118,8 +117,6 @@ public class managePesertaRapat extends ActionBarActivity {
         ListView atomPaysListView = (ListView)findViewById(R.id.EnterPays_atomPaysList);
         atomPaysListView.setAdapter(adapter);
     }
-
-
 
 // Buat thread yang mengecek apakah nama ada di User table, kalo ada ambil ID user tersebut
 

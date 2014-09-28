@@ -57,6 +57,7 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_register);
             session = new SessionManager(getApplicationContext());
+            session.checkLogin();
             user = session.getUserDetails();
             ID_USER = user.get(SessionManager.KEY_ID_USER);
             initializeView();

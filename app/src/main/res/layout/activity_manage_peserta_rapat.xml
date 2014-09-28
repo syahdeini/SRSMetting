@@ -7,7 +7,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="id.net.iconpln.meetings.managePesertaRapat">
+    tools:context="id.net.iconpln.meetings.managePesertaRapat"
+    android:background="@drawable/gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,25 +18,21 @@
             android:id="@+id/namaPesertaEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Tuliskan Nama"
-            android:layout_weight=".6"/>
+            android:hint="@string/edittext_tulis_nama"
+            android:layout_weight=".7"/>
         <Button
             android:id="@+id/addPesertaButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="tambahkan"
-            android:layout_weight=".25"/>
+            android:text="@string/button_tambah"
+            android:layout_weight=".1"/>
         <Button
             android:id="@+id/submitPersertaRapatBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="submit"
-            android:layout_weight=".25"/>
-
+            android:text="@string/button_ok"
+            android:layout_weight=".2"/>
     </LinearLayout>
-
-
-
 
     <LinearLayout
         android:id="@+id/linear_layout_buttons"
@@ -46,8 +43,6 @@
             android:id="@+id/EnterPays_atomPaysList"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/atom_pay_list_item"
-            android:layout_below="@+id/EnterPays_addAtomPayment" >
-        </ListView>
+            tools:listitem="@layout/atom_pay_list_item" />
     </LinearLayout>
 </LinearLayout>

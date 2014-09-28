@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.Menu;
 
 import java.util.HashMap;
 
@@ -42,7 +43,7 @@ public class SessionManager {
 
     public void checkLogin(){
         if(!this.isLoggedIn()){
-            Intent i = new Intent(_context, Login.class);
+            Intent i = new Intent(_context, Main.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             _context.startActivity(i);
@@ -64,7 +65,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        Intent i = new Intent(_context, Login.class);
+        Intent i = new Intent(_context, Main.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         _context.startActivity(i);

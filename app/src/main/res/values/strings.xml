@@ -7,21 +7,32 @@
 
     <string name="app_name">Icon+ Meeting(s)</string>
     <string name="action_settings">Settings</string>
-    <string name="edittext_username">Username</string>
-    <string name="edittext_password">Password</string>
+    <string name="textview_main">Meeting(s)</string>
+    <string name="textview_mainsub">Store your MOM documents</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
     <string name="button_login">Log In</string>
     <string name="button_register">Register</string>
     <string name="title_activity_login">Log In</string>
     <string name="hello_world">Icon+ Meeting(s) Logo</string>
     <string name="title_activity_register">Register</string>
     <string name="textview_lupapassword">Lupa Password?</string>
-    <string name="title_activity_dokumen">Dokumen</string>
-    <string name="button_search">Search</string>
+    <string name="textview_waktumulai">Waktu Mulai</string>
+    <string name="textview_waktuselesai">Waktu Selesai</string>
+    <string name="textview_perihal">Perihal</string>
+    <string name="textview_ruangan">Ruangan</string>
+    <string name="textview_aplikasi">Aplikasi</string>
+    <string name="textview_penanggungjawab">Penanggung jawab</string>
+    <string name="textview_peserta">Peserta</string>
+    <string name="button_pilih_peserta">Pilih Peserta</string>
+    <string name="title_activity_dokumen">Cari Dokumen Rapat</string>
+    <string name="button_search">Cari</string>
     <string name="edittext_search">Masukkan kata kunci</string>
-    <string name="title_activity_daftar_rapat">daftar_rapat</string>
+    <string name="title_activity_daftar_rapat">Jadwal Baru</string>
     <string name="title_activity_menu">Menu</string>
-    <string name="title_activity_manage_rapat">Manage_rapat</string>
-    <string name="title_activity_manage_peserta_rapat">managePesertaRapat</string>
+    <string name="title_activity_manage_rapat">Kelola Jadwal Rapat</string>
+    <string name="title_activity_manage_peserta_rapat">Pilih Peserta Rapat</string>
+    <string name="title_activity_edit_user_account">Ubah Akun</string>
     <string name="jadwalBaruBtn">Buat Jadwal Baru</string>
     <string name="button_editUserAccount">Ubah Akun</string>
     <string name="button_lihatJadwalRapat">Lihat Jadwal Rapat</string>
@@ -29,5 +40,15 @@
     <string name="button_cariDokumenRapat">Cari Dokumen Rapat</string>
     <string name="button_ubahAkun">Ubah Akun</string>
     <string name="button_logout">Log out</string>
+    <string name="button_submit">Submit</string>
+    <string name="button_batal">Batal</string>
+    <string name="edittext_tulis_nama">Tuliskan Nama</string>
+    <string name="button_tambah">+</string>
+    <string name="button_ok">OK</string>
+    <string name="textview_namalengkap">Nama Lengkap</string>
+    <string name="textview_divisi">Divisi</string>
+    <string name="textview_email">Email</string>
+    <string name="textview_masukan_ulang_password">Ketik ulang password</string>
+    <string name="button_reset_password">Reset Password</string>
 
 </resources>
