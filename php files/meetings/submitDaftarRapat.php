@@ -1,9 +1,5 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 
 $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
@@ -42,7 +38,7 @@ echo $listAray[2];
 
 
 // getting ID rapat
-$sql1="SELECT COUNT(*) FROM WILIK.DRAPAT";
+$sql1="SELECT COUNT(*) FROM ".$db_owner."RAPAT";
 $compiled1 = oci_parse($conn, $sql1);
 $resultExec1=oci_execute($compiled1);
 $row1= oci_fetch_row($compiled1);
@@ -52,7 +48,7 @@ $id_rapat="RPT-".$val;
 
 
 
-$sql = "INSERT INTO WILIK.DRAPAT".
+$sql = "INSERT INTO ".$db_owner."RAPAT".
 		"(ID_RAPAT,
 ID_RUANGAN,
 TANGGAL_MULAI,
@@ -101,7 +97,7 @@ if($listPeserta!=null)
 {
 		for($j=0;$j<$sizeList;$j++)
 		{
-			$sqlOnes="INSERT INTO WILIK.DRAPAT_PESERTA (ID_PESERTA,ID_RAPAT,STATE_RP) VALUES(:id_peserta,:id_rapat,0)";
+			$sqlOnes="INSERT INTO ".$db_owner."RAPAT_PESERTA (ID_PESERTA,ID_RAPAT,STATE_RP) VALUES(:id_peserta,:id_rapat,0)";
 			$compiled2 = oci_parse($conn, $sqlOnes);
 			oci_bind_by_name($compiled2, ':id_peserta', $listPeserta[$j]);
 			oci_bind_by_name($compiled2, ':id_rapat', $id_rapat);

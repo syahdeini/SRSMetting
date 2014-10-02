@@ -1,11 +1,7 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-	$e = oci_error();
-	trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 
-$sql = "SELECT id_dokumen FROM WILIK.ddokumen";
+$sql = "SELECT id_dokumen FROM ".$db_owner."dokumen";
 		
 $compiled = oci_parse($conn, $sql);
 oci_execute($compiled) or die(oci_error($compiled));
@@ -29,7 +25,7 @@ $finfo = finfo_open(FILEINFO_MIME_TYPE);
 $tipe_file = finfo_file($finfo, $_FILES['uploaded_file']['tmp_name']);
 finfo_close($finfo);
 
-$sql = "INSERT INTO WILIK.ddokumen (id_dokumen, id_rapat, dokumen, uploader_id, waktu_upload, status_dokumen, ".
+$sql = "INSERT INTO ".$db_owner."dokumen (id_dokumen, id_rapat, dokumen, uploader_id, waktu_upload, status_dokumen, ".
 		"nama_dokumen, tipe_file) VALUES(:id_dokumen, :id_rapat, empty_blob(), :uploader_id, :waktu_upload, ".
 		":status_dokumen, :nama_dokumen, :tipe_file) RETURNING dokumen INTO :image";
 $result = oci_parse($conn, $sql);

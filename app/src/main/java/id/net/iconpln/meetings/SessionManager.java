@@ -24,6 +24,7 @@ public class SessionManager {
     public static final String KEY_ID_DIVISI = "id_divisi";
     public static final String KEY_NAMA = "nama";
     public static final String KEY_EMAIL = "email";
+    public static final String KEY_PERAN = "peran";
 
     public SessionManager(Context context){
         this._context = context;
@@ -31,13 +32,14 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String id_user, String id_divisi, String nama, String email){
+    public void createLoginSession(String id_user, String id_divisi, String nama, String email, String peran){
         editor.putBoolean(IS_LOGIN, true);
 
         editor.putString(KEY_ID_USER, id_user);
         editor.putString(KEY_ID_DIVISI, id_divisi);
         editor.putString(KEY_NAMA, nama);
         editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_PERAN, peran);
         editor.commit();
     }
 
@@ -57,6 +59,7 @@ public class SessionManager {
         user.put(KEY_ID_DIVISI, pref.getString(KEY_ID_DIVISI, null));
         user.put(KEY_NAMA, pref.getString(KEY_NAMA, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_PERAN, pref.getString(KEY_PERAN, null));
 
         return user;
     }

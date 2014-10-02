@@ -1,21 +1,20 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
-#$json = $_SERVER['HTTP_JSON'];
-#$data = json_decode($json);
+include "koneksi.php";
 
-#$keyword = "%".$data->keyword."%";
-$keyword = "%%";
+$json = $_SERVER['HTTP_JSON'];
+$data = json_decode($json);
 
-$sql = "SELECT id_dokumen, nama, waktu_upload, status_dokumen, nama_dokumen, tipe_file, perihal, tanggal_mulai, jam_mulai, nama_ruangan ".
-		"FROM WILIK.ddokumen ".
-		"INNER JOIN WILIK.ddaftar_user ON ddokumen.uploader_id = ddaftar_user.id_user ".
-		"INNER JOIN WILIK.drapat ON ddokumen.id_rapat = drapat.id_rapat ".
-		"LEFT OUTER JOIN WILIK.druangan ON drapat.id_ruangan = druangan.id_ruangan AND (".
-		"nama LIKE :keyword OR nama_dokumen LIKE :keyword OR tipe_file LIKE :keyword)";
+$keyword = "%".$data->keyword."%";
+#$keyword = "%".$_GET["keyword"]."%";
+
+$sql = "SELECT * ".
+	"FROM ( ".
+    "SELECT id_dokumen, nama, waktu_upload, status_dokumen, nama_dokumen, tipe_file, perihal, tanggal_mulai, jam_mulai, nama_ruangan ".
+    "FROM ".$db_owner."dokumen ".
+    "INNER JOIN ".$db_owner."daftar_user ON ddokumen.uploader_id = ddaftar_user.id_user ".
+    "INNER JOIN ".$db_owner."rapat ON ddokumen.id_rapat = drapat.id_rapat ".
+    "LEFT OUTER JOIN ".$db_owner."ruangan ON drapat.id_ruangan = druangan.id_ruangan ) ".
+	"WHERE status_dokumen = 1 AND (nama LIKE :keyword OR nama_dokumen LIKE :keyword OR perihal LIKE :keyword OR nama_ruangan LIKE :keyword)";
 		
 $compiled = oci_parse($conn, $sql);
 oci_bind_by_name($compiled, ':keyword', $keyword);

@@ -1,8 +1,10 @@
 package id.net.iconpln.meetings;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -23,19 +25,31 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
@@ -257,6 +271,7 @@ public class Manage_rapat extends ActionBarActivity {
             JSONParser jParser = new JSONParser();
             url = "http://" + globalVar.serverIPaddress + "/meetings/data_rapat.php";
             JSONObject json = jParser.getJSONFromUrl(url);
+            MyArrList.clear();
 
             try {
                 JSONArray rapat = json.getJSONArray("rapat");
@@ -299,6 +314,127 @@ public class Manage_rapat extends ActionBarActivity {
         }
     }
 
+    public void postData(String url) throws JSONException {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(url);
+        JSONObject json = new JSONObject();
+
+        try {
+            // JSON data:
+            json.put("id_rapat", id_rapat);
+
+            JSONArray postjson=new JSONArray();
+            postjson.put(json);
+
+            // Post the data:
+            httppost.setHeader("json",json.toString());
+            httppost.getParams().setParameter("jsonpost",postjson);
+
+            // Execute HTTP Post Request
+            System.out.print(json);
+            HttpResponse response = httpclient.execute(httppost);
+
+            // for JSON:
+            if(response != null)
+            {
+                InputStream is = response.getEntity().getContent();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                StringBuilder sb = new StringBuilder();
+
+                String line = null;
+                try {
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                text = sb.toString();
+            }
+
+        }catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+    }
+
+    public class DeleteRapat extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... arg0) {
+            url = "http://" + globalVar.serverIPaddress + "/meetings/deleteRapat.php";
+
+            try {
+                postData(url);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            new AmbilDaftarRapat().execute();
+        }
+    }
+
+    private void kelolaRapat() {
+        final CharSequence[] options = { "Edit Rapat", "Upload Dokumen", "Hapus Rapat", "Batal" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(Manage_rapat.this);
+        builder.setTitle("Kelola Rapat");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Edit Rapat")) {
+
+                }
+                else if (options[item].equals("Upload Dokumen")) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("file/*");
+                    startActivityForResult(intent, 1);
+                }
+                else if (options[item].equals("Hapus Rapat")) {
+                    new AlertDialog.Builder(Manage_rapat.this)
+                            .setTitle("Hapus Rapat?")
+                            .setMessage("Yakin ingin hapus rapat ini?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(getApplicationContext(), "Berhasil hapus rapat", Toast.LENGTH_SHORT).show();
+                                    new DeleteRapat().execute();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // kosong
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                else if (options[item].equals("Batal")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
     private void populateView() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linear_layout_buttons);
         layout.setOrientation(LinearLayout.VERTICAL);
@@ -307,7 +443,7 @@ public class Manage_rapat extends ActionBarActivity {
             String perihal = aMyArrList.get("perihal");
             String penanggungjawab = aMyArrList.get("penanggungjawab");
             String tanggal = aMyArrList.get("tanggal_mulai");
-            String jam = aMyArrList.get("jam_mulai").replaceAll(".000000", "").substring(9);
+            String jam = aMyArrList.get("jam_mulai").replaceAll(".000000", "").substring(10);
             String ruangan = aMyArrList.get("nama_ruangan");
 
             Button but = new Button(this);
@@ -322,10 +458,8 @@ public class Manage_rapat extends ActionBarActivity {
             but.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("file/*");
                     id_rapat = aMyArrList.get("id_rapat");
-                    startActivityForResult(intent, 1);
+                    kelolaRapat();
                 }
             });
             layout.addView(but);

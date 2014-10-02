@@ -1,17 +1,13 @@
 <?php
 
 // mengambil 2 hal, ruangan dan aplikasi
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 //$json = $_SERVER['HTTP_JSON'];
 //$data = json_decode($json);
 
 //$keyword = "%".$data->keyword."%";
 
-$sql = "SELECT * FROM WILIK.DDIVISI";
+$sql = "SELECT * FROM ".$db_owner."DIVISI";
 
 $response = array();
 $response['divisi']=array();

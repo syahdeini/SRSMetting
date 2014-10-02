@@ -1,9 +1,5 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 
 
 $json = $_SERVER['HTTP_JSON'];
@@ -16,7 +12,7 @@ $username= $data->username;
 $password = $data->password;
 
 
-$sql1="SELECT COUNT(*) FROM WILIK.DDAFTAR_USER";
+$sql1="SELECT COUNT(*) FROM ".$db_owner."DAFTAR_USER";
 $compiled1 = oci_parse($conn, $sql1);
 $resultExec1=oci_execute($compiled1);
 $row1= oci_fetch_row($compiled1);
@@ -31,7 +27,7 @@ $username= 'c';
 $password = 'c';
 */
 
-$sql = "INSERT INTO WILIK.DDAFTAR_USER ".
+$sql = "INSERT INTO ".$db_owner."DAFTAR_USER ".
        "(id_user,id_divisi,nama,username,pass,email) VALUES (:iduser,:divisi,:fullName,:username,:password,:email)";
 	   	   
 $compiled = oci_parse($conn, $sql);

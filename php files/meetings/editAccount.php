@@ -1,13 +1,8 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 
 $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
-
 
 $iduser = $data->iduser;
 $fullName = $data->fullName;
@@ -16,7 +11,6 @@ $email = $data->email;
 $username= $data->username;
 $password = $data->password;
 
-
 /*$fullName = 'c';
 $divisi = 5;
 $email = 'c';
@@ -24,7 +18,7 @@ $username= 'c';
 $password = 'c';
 */
 
-$sql = "UPDATE WILIK.DDAFTAR_USER ".
+$sql = "UPDATE ".$db_owner."DAFTAR_USER ".
        "SET id_divisi=:divisi,nama=:fullName,username=:username,pass=:password,email=:email 
 	   WHERE id_user=:iduser";
 	   	   

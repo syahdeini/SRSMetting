@@ -1,12 +1,8 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 
 $id_dokumen = $_GET["id_dokumen"];
-$sql = "SELECT * FROM WILIK.ddokumen WHERE id_dokumen = :id_dokumen";
+$sql = "SELECT * FROM ".$db_owner."dokumen WHERE id_dokumen = :id_dokumen";
 
 $compiled = oci_parse($conn, $sql);
 oci_bind_by_name($compiled, ':id_dokumen', $id_dokumen);

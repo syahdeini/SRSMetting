@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Created by Wilik on 8/23/2014.
  */
 public class globalVar {
-    final static public String serverIPaddress = "192.168.43.237";
+    final static public String serverIPaddress = "10.151.43.250";
     final static public String emailAddressPengirim = "testing@gmail.com";
     final static public String passwordEmail ="mantap jaya";
     final static public HashMap<String,String> id_user_saver=new HashMap<String,String>();

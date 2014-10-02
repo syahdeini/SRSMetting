@@ -76,9 +76,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_bawah"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="100dp">
+        android:layout_alignParentBottom="true">
 
         <Button
             android:layout_width="0dp"
@@ -101,4 +101,20 @@
             android:text="@string/button_logout"
             android:id="@+id/button_logout" />
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/layout_dua"
+        android:layout_above="@id/layout_bawah">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textview_notifikasi"
+            android:textSize="12sp"
+            android:gravity="center_horizontal"/>
+    </ScrollView>
 </RelativeLayout>

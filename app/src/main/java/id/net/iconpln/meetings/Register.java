@@ -27,6 +27,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -106,6 +109,19 @@ public class Register extends ActionBarActivity {
         repasswordTV = (EditText) findViewById(R.id.repasswordEditText);
     }
 
+    public static String md5(String s) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes(),0,s.length());
+            return new BigInteger(1, digest.digest()).toString(16);
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     class registerToSystem extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
         @Override
@@ -168,6 +184,7 @@ public class Register extends ActionBarActivity {
             //       Toast.makeText(getApplicationContext(), "NIPG/Kata sandi tidak sesuai", Toast.LENGTH_LONG).show();
             //    }
         }
+
         public void postData(String url) throws JSONException {
             // Create a new HttpClient and Post Header
             HttpClient httpclient = new DefaultHttpClient();
@@ -183,7 +200,7 @@ public class Register extends ActionBarActivity {
                 json.put("divisi",divisiSelected);
                 json.put("email",emailTV.getText());
                 json.put("username",usernameTV.getText());
-                json.put("password",passwordTV.getText());
+                json.put("password",md5(passwordTV.getText().toString().trim()));
 
                 JSONArray postjson=new JSONArray();
                 postjson.put(json);

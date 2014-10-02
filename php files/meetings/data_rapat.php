@@ -1,11 +1,7 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 
-$sql = "SELECT * FROM WILIK.DRAPAT, WILIK.DRUANGAN, WILIK.DDAFTAR_USER WHERE DRAPAT.id_ruangan = DRUANGAN.id_ruangan AND DRAPAT.pembuat_jadwal_id_user = DDAFTAR_USER.id_user";
+$sql = "SELECT * FROM ".$db_owner."RAPAT, ".$db_owner."RUANGAN, ".$db_owner."DAFTAR_USER WHERE DRAPAT.id_ruangan = DRUANGAN.id_ruangan AND DRAPAT.pembuat_jadwal_id_user = DDAFTAR_USER.id_user AND DRAPAT.status_rapat = 1";
 
 $compiled = oci_parse($conn, $sql);
 oci_execute($compiled);

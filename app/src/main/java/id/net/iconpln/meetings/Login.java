@@ -28,10 +28,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import srsmeeting.iconpln.net.id.srsmeeting.R;
-
 
 public class Login extends ActionBarActivity {
     SessionManager session;
@@ -84,6 +86,19 @@ public class Login extends ActionBarActivity {
         });
     }
 
+    public static String md5(String s) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes(),0,s.length());
+            return new BigInteger(1, digest.digest()).toString(16);
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public void postData(String url) throws JSONException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
@@ -93,7 +108,7 @@ public class Login extends ActionBarActivity {
         try {
             // JSON data:
             json.put("user", edittext_username.getText());
-            json.put("pass", edittext_password.getText());
+            json.put("pass", md5(edittext_password.getText().toString().trim()));
 
             JSONArray postjson=new JSONArray();
             postjson.put(json);
@@ -174,7 +189,8 @@ public class Login extends ActionBarActivity {
                         String id_divisi = c.getString("id_divisi").trim();
                         String nama = c.getString("nama").trim();
                         String email = c.getString("email").trim();
-                        session.createLoginSession(id_user, id_divisi, nama, email);
+                        String peran = c.getString("peran").trim();
+                        session.createLoginSession(id_user, id_divisi, nama, email, peran);
                     }
                 } else {
                     Log.e("error", "tidak bisa ambil data, return success = 0");

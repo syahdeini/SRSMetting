@@ -1,9 +1,5 @@
 <?php
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
+include "koneksi.php";
 
 $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
@@ -11,7 +7,7 @@ $data = json_decode($json);
 //$email = $data->email;
 $id=$data->id;
 
-$sql = "SELECT * FROM WILIK.DDAFTAR_USER ".
+$sql = "SELECT * FROM ".$db_owner."DAFTAR_USER ".
        "WHERE ID_USER = :u_id";
 	   	   
 $compiled = oci_parse($conn, $sql);

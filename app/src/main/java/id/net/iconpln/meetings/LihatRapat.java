@@ -137,7 +137,7 @@ public class LihatRapat extends Activity {
             String perihal = aMyArrList.get("perihal");
             String penanggungjawab = aMyArrList.get("penanggungjawab");
             String tanggal = aMyArrList.get("tanggal_mulai");
-            String jam = aMyArrList.get("jam_mulai").replaceAll(".000000", "").substring(9);
+            String jam = aMyArrList.get("jam_mulai").replaceAll(".000000", "").substring(10);
             String ruangan = aMyArrList.get("nama_ruangan");
 
             Button but = new Button(this);
@@ -172,12 +172,12 @@ public class LihatRapat extends Activity {
                     textview_tanggal_mulai.setText(aMyArrList.get("tanggal_mulai"));
                     String jam_temp = aMyArrList.get("jam_mulai").replaceAll(".000000", "");
                     if(jam_temp.length() > 9)
-                        jam_temp = jam_temp.substring(9);
+                        jam_temp = jam_temp.substring(10);
                     textview_jam_mulai.setText(jam_temp);
                     textview_tanggal_selesai.setText(aMyArrList.get("tanggal_selesai"));
                     jam_temp = aMyArrList.get("jam_selesai").replaceAll(".000000", "");
                     if(jam_temp.length() > 9)
-                        jam_temp = jam_temp.substring(9);
+                        jam_temp = jam_temp.substring(10);
                     textview_jam_selesai.setText(jam_temp);
                     textview_nama_ruangan.setText(aMyArrList.get("nama_ruangan"));
                     textview_nama_pembuat_jadwal.setText(aMyArrList.get("nama_pembuat_jadwal"));

@@ -1,17 +1,12 @@
 <?php
-
+include "koneksi.php";
 // mengambil 2 hal, ruangan dan aplikasi
-$conn = oci_connect('system', 'admin123', 'localhost/XE');
-if (!$conn) {
-    $e = oci_error();
-    trigger_error(htmlentities($e['message'], ENT_QUOTES), E_USER_ERROR);
-}
 $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
 
 //$keyword = "%".$data->keyword."%";
 $name=$data->nama;
-$sql = "SELECT * FROM WILIK.DDAFTAR_USER WHERE NAMA=:username";
+$sql = "SELECT * FROM ".$db_owner."DAFTAR_USER WHERE nama=:username";
 
 
 $response = array();
