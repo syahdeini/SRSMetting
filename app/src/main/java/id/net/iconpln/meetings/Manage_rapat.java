@@ -159,7 +159,7 @@ public class Manage_rapat extends ActionBarActivity {
                     FileInputStream fileInputStream = new FileInputStream(sourceFile);
                     URL url = new URL(upLoadServerUri);
 
-                    // Open a HTTP  connection to  the URL
+                    // Open a HTTP  connection to  the URL
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setDoInput(true); // Allow Inputs
                     conn.setDoOutput(true); // Allow Outputs
@@ -177,7 +177,7 @@ public class Manage_rapat extends ActionBarActivity {
                             + fileName + "\"" + lineEnd);
                     dos.writeBytes(lineEnd);
 
-                    // create a buffer of  maximum size
+                    // create a buffer of  maximum size
                     bytesAvailable = fileInputStream.available();
 
                     bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -402,7 +402,11 @@ public class Manage_rapat extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Edit Rapat")) {
-
+                        // edit rapat clicked
+                        globalVar.idRapatEdited=id_rapat;
+                        Intent editRapatIntent= new Intent(Manage_rapat.this,editRapat.class);
+                        startActivity(editRapatIntent);
+                        finish();
                 }
                 else if (options[item].equals("Upload Dokumen")) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);

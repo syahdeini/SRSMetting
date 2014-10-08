@@ -81,7 +81,7 @@ public class managePesertaRapat extends ActionBarActivity {
                     ata.add(adapter.getItem(i));
                 }
              */ //  resultData.putParcelableArrayListExtra("anggotaRapat",ata);
-                resultData.putExtra("joko","widodo");
+           //     resultData.putExtra("joko","widodo");
 
                 if(getParent()==null)
                     setResult(RESULT_OK, resultData);

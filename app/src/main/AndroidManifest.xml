@@ -61,6 +61,10 @@
             android:name="id.net.iconpln.meetings.LihatRapat"
             android:label="@string/title_activity_lihat_rapat" >
         </activity>
+        <activity
+            android:name="id.net.iconpln.meetings.editRapat"
+            android:label="@string/title_activity_edit_rapat" >
+        </activity>
     </application>
 
 </manifest>

@@ -107,7 +107,7 @@ public class Login extends ActionBarActivity {
 
         try {
             // JSON data:
-            json.put("user", edittext_username.getText());
+            json.put("user", edittext_username.getText().toString().trim());
             json.put("pass", md5(edittext_password.getText().toString().trim()));
 
             JSONArray postjson=new JSONArray();

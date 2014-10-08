@@ -17,7 +17,8 @@ $resumeHasil = $data->resumeHasil;
 $tanggalBuatRapat = $data->tanggalBuatRapat;
 $pembuatJadwal = $data->pembuatJadwal;
 $statusRapat = $data->statusRapat; // convert to integer
-$listPeserta = explode(",",$data->listPeserta);
+if($data->listPeserta!=null)
+	$listPeserta = explode(",",$data->listPeserta);
 /*
 $ruangan = "R 102";
 //$aplikasi = $aplikasi->aplikasi;
@@ -90,22 +91,23 @@ oci_bind_by_name($compiled, ':statusRapat', $statusRapat);
 
 
 $resultExec=oci_execute($compiled);
-
-// Submit anggota rapat di kolom rapat_anggota
-$sizeList=count($listPeserta);
-if($listPeserta!=null)
+if($data->listPeserta!=null)
 {
-		for($j=0;$j<$sizeList;$j++)
-		{
-			$sqlOnes="INSERT INTO ".$db_owner."RAPAT_PESERTA (ID_PESERTA,ID_RAPAT,STATE_RP) VALUES(:id_peserta,:id_rapat,0)";
-			$compiled2 = oci_parse($conn, $sqlOnes);
-			oci_bind_by_name($compiled2, ':id_peserta', $listPeserta[$j]);
-			oci_bind_by_name($compiled2, ':id_rapat', $id_rapat);
-			oci_execute($compiled2);
-			//			$listPeserta[j];
-		}
+	// Submit anggota rapat di kolom rapat_anggota
+	$sizeList=count($listPeserta);
+	if($listPeserta!=null)
+	{
+			for($j=0;$j<$sizeList;$j++)
+			{
+				$sqlOnes="INSERT INTO ".$db_owner."RAPAT_PESERTA (ID_PESERTA,ID_RAPAT,STATE_RP) VALUES(:id_peserta,:id_rapat,0)";
+				$compiled2 = oci_parse($conn, $sqlOnes);
+				oci_bind_by_name($compiled2, ':id_peserta', $listPeserta[$j]);
+				oci_bind_by_name($compiled2, ':id_rapat', $id_rapat);
+				oci_execute($compiled2);
+				//			$listPeserta[j];
+			}
+	}
 }
-
 
 $response = array();
 

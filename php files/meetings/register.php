@@ -17,7 +17,7 @@ $compiled1 = oci_parse($conn, $sql1);
 $resultExec1=oci_execute($compiled1);
 $row1= oci_fetch_row($compiled1);
 $val= (int)$row1[0]+1;
-$id_rapat="USR".$val;
+$id_user="USR".$val;
 
 /*
 $fullName = 'c';
@@ -32,7 +32,7 @@ $sql = "INSERT INTO ".$db_owner."DAFTAR_USER ".
 	   	   
 $compiled = oci_parse($conn, $sql);
 
-oci_bind_by_name($compiled, ':iduser', $id_rapat);
+oci_bind_by_name($compiled, ':iduser', $id_user);
 oci_bind_by_name($compiled, ':fullName', $fullName);
 oci_bind_by_name($compiled, ':divisi', $divisi);
 oci_bind_by_name($compiled, ':email',$email);
@@ -40,6 +40,13 @@ oci_bind_by_name($compiled, ':username',$username);
 oci_bind_by_name($compiled, ':password',$password);
 
 $resultExec=oci_execute($compiled);
+
+// insert peran
+
+$sqlT="INSERT INTO ".$db_owner."PERAN VALUES(:iduser,'USR')";
+$compiled = oci_parse($conn, $sqlT);
+oci_bind_by_name($compiled,':iduser',$id_user);
+oci_execute($compiled);
 
 $response = array();
 

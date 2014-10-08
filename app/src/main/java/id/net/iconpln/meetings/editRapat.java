@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import org.apache.http.HttpResponse;
@@ -33,11 +33,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import srsmeeting.iconpln.net.id.srsmeeting.R;
 
-public class daftar_rapat extends ActionBarActivity {
-
+public class editRapat extends ActionBarActivity {
     SessionManager session;
     ProgressDialog pDialog;
     String url;
@@ -53,16 +51,21 @@ public class daftar_rapat extends ActionBarActivity {
     //GUI Object
     Spinner ruanganSpinner;
     Spinner aplikasiSpinner;
+    String str_IDRapat,str_idRuangan,str_TanggalMulai,str_TanggalSelesai,str_jamMulai,str_jamSelesai,str_perihal
+            ,str_penanggungJawab,str_resumeHasil,str_tanggalBuatRapat,str_pembuatJadwalIdUser,str_statusRapat,str_applikasiRapat;
+
+    String IDRAPATEDIT="";
     int ACTIVITY_CODE=655;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daftar_rapat);
+        setContentView(R.layout.activity_edit_rapat);
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
         user = session.getUserDetails();
         ID_USER= user.get(SessionManager.KEY_ID_USER);
+        IDRAPATEDIT=globalVar.idRapatEdited;
         new getData().execute();
 
         Button submitRapat=(Button)findViewById(R.id.submitRapat);
@@ -91,7 +94,7 @@ public class daftar_rapat extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent managePesertaRapatActivity = new Intent(daftar_rapat.this,managePesertaRapat.class);
+                Intent managePesertaRapatActivity = new Intent(editRapat.this,managePesertaRapat.class);
                 startActivityForResult(managePesertaRapatActivity,ACTIVITY_CODE);
 //                startActivity(managePesertaRapatActivity);
             }
@@ -150,8 +153,8 @@ public class daftar_rapat extends ActionBarActivity {
             // JSON data:
 
             // putting JSON as parameter to php
-
             //  json.put("keyword", edittext_search.getText());
+            json.put("rapat_id",IDRAPATEDIT);
             JSONArray postjson=new JSONArray();
             postjson.put(json);
 
@@ -194,12 +197,14 @@ public class daftar_rapat extends ActionBarActivity {
         }
     }
 
+
+
     // class for handling another thread
     public class getData extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(daftar_rapat.this);
+            pDialog = new ProgressDialog(editRapat.this);
             pDialog.setMessage("Mengambil data");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -207,7 +212,7 @@ public class daftar_rapat extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... arg0) {
-            url = "http://" + globalVar.serverIPaddress + "/meetings/getDataRapat.php";
+            url = "http://" + globalVar.serverIPaddress + "/meetings/getDataRapatByID.php";
 
             JSONObject json = null;
             try {
@@ -220,6 +225,9 @@ public class daftar_rapat extends ActionBarActivity {
             try {
                 JSONArray aplikasi = json.getJSONArray("aplikasi");
                 JSONArray ruangan = json.getJSONArray("ruangan");
+                JSONArray rapat = json.getJSONArray("rapat");
+                JSONArray aplikasiRapat = json.getJSONArray("aplikasi_rapat");
+                JSONArray pesertaRapat = json.getJSONArray("pesertaRapat");
                 dictAplikasi= new HashMap<String, String>();
                 dictRuangan= new HashMap<String, String>();
                 for(int i=0; i<aplikasi.length(); i++)
@@ -241,6 +249,29 @@ public class daftar_rapat extends ActionBarActivity {
                     dictRuangan.put(c.getString("nama_ruangan"),c.getString("id_ruangan"));
                     nama_ruanganList.add(c.getString("nama_ruangan"));
                     MyArrListAplikasi.add(map);
+                }
+                // Getting rapat data based on rapat ID
+                JSONObject c = rapat.getJSONObject(0);
+                str_TanggalMulai=c.getString("TANGGAL_MULAI");
+                str_idRuangan=c.getString("ID_RUANGAN");
+                str_TanggalSelesai=c.getString("TANGGAL_SELESAI");
+                str_jamMulai = c.getString("JAM_MULAI");
+                str_jamSelesai=c.getString("JAM_SELESAI");
+                str_perihal=c.getString("PERIHAL");
+                str_penanggungJawab=c.getString("PENANGGUNG_JAWAB");
+                str_resumeHasil=c.getString("RESUME_HASIL");
+                str_tanggalBuatRapat=c.getString("TANGGAL_BUAT_RAPAT");
+                str_pembuatJadwalIdUser=c.getString("PEMBUAT_JADWAL_ID_USER");
+                str_statusRapat=c.getString("STATUS_RAPAT");
+
+                // getting aplikasi rapat
+                c = aplikasiRapat.getJSONObject(0);
+                str_applikasiRapat=c.getString("ID_APLIKASI");
+
+                // Getting all peserta rapat
+                for(int i=0; i<pesertaRapat.length(); i++) {
+                     c = pesertaRapat.getJSONObject(i);
+                    globalVar.id_user_saver.put(c.getString("NAMA_PESERTA"),c.getString("ID_PESERTA"));
                 }
 
 
@@ -269,6 +300,67 @@ public class daftar_rapat extends ActionBarActivity {
         dummyStr=nama_aplikasiList.toArray(new String[nama_aplikasiList.size()]);
         ApliasiArrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,dummyStr);
         aplikasiSpinner.setAdapter(ApliasiArrayAdapter);
+
+
+        //setting value of datepicker
+        SimpleDateFormat sdf=new SimpleDateFormat("dd-MMM-yy");
+        SimpleDateFormat sdfFullTime=new SimpleDateFormat("dd-MMM-yy K.mm.ss.SSS a");
+        Calendar calendar= Calendar.getInstance();
+//        SimpleDateFormat
+        try {
+            Date dateTmp = sdf.parse(str_TanggalMulai);
+
+
+            DatePicker dp_tanggalMulai =(DatePicker)findViewById(R.id.WaktuMulai_datePicker);
+            DatePicker dp_tanggalSelesai = (DatePicker)findViewById(R.id.WaktuSelesai_datePicker);
+            TimePicker tm_waktuMulai = (TimePicker)findViewById(R.id.WaktuMulai_timePicker);
+            TimePicker tm_waktuSelesai=(TimePicker)findViewById(R.id.WaktuSelesai_timePicker);
+            EditText ed_perihal =(EditText)findViewById(R.id.perihalEditText);
+            EditText ed_penanggungJawab = (EditText)findViewById(R.id.penanggungJawabEditText);
+
+            calendar.setTime(dateTmp);
+            dp_tanggalMulai.updateDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+
+            dateTmp=sdf.parse(str_TanggalSelesai);
+            calendar.setTime(dateTmp);
+            dp_tanggalSelesai.updateDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+
+            dateTmp= sdfFullTime.parse(str_jamMulai);
+            calendar.setTime(dateTmp);
+            tm_waktuMulai.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+            tm_waktuMulai.setCurrentMinute(calendar.get(Calendar.MINUTE));
+
+            dateTmp=sdfFullTime.parse(str_jamSelesai);
+            calendar.setTime(dateTmp);
+            tm_waktuSelesai.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+            tm_waktuSelesai.setCurrentMinute(calendar.get(Calendar.MINUTE));
+
+
+            ed_perihal.setText(str_perihal);
+            ed_penanggungJawab.setText(str_penanggungJawab);
+            // SPINNER ///
+            // mengganti spinner aplikasi
+            if(str_applikasiRapat!=null) {
+                ArrayAdapter myAdap = (ArrayAdapter) aplikasiSpinner.getAdapter();
+                int position = myAdap.getPosition(str_applikasiRapat);
+                aplikasiSpinner.setSelection(position);
+            }
+            // Mengganti spinner ruangan
+
+            if(str_idRuangan!=null) {
+                ArrayAdapter myAdap = (ArrayAdapter) ruanganSpinner.getAdapter();
+                int pos = myAdap.getPosition(str_idRuangan);
+                ruanganSpinner.setSelection(pos);
+            }
+        }catch(Exception e)
+        {
+            Log.e("ERROR in date populate",e.toString());
+        }
+           // str_TanggalMulai.replace('-','/');
+
+        //dp_tanggalMulai.
+
+
     }
 
 
@@ -279,7 +371,7 @@ public class daftar_rapat extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(daftar_rapat.this);
+            pDialog = new ProgressDialog(editRapat.this);
             pDialog.setMessage("Submitting data");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -287,7 +379,7 @@ public class daftar_rapat extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... arg0) {
-            url = "http://" + globalVar.serverIPaddress + "/meetings/submitDaftarRapat.php";
+            url = "http://" + globalVar.serverIPaddress + "/meetings/editRapatByID.php";
 
             JSONObject json = null;
             try {
@@ -360,10 +452,8 @@ public class daftar_rapat extends ActionBarActivity {
 
             //  EditText ad=((EditText)findViewById(R.id.passwordEditText));
             //String PenanngungJawab = ad.getText().toString();
-            int dateMulai_moth=waktuMulai_dateP.getMonth()+1;
-            int dateSelesai_month=waktuSelesai_dateP.getMonth()+1;
-            String dateMulai= waktuMulai_dateP.getYear()+"/"+ dateMulai_moth+"/"+waktuMulai_dateP.getDayOfMonth();
-            String dateSelesai = waktuSelesai_dateP.getYear()+"/"+dateSelesai_month+"/"+waktuSelesai_dateP.getDayOfMonth();
+            String dateMulai= waktuMulai_dateP.getYear()+"/"+waktuMulai_dateP.getMonth()+"/"+waktuMulai_dateP.getDayOfMonth();
+            String dateSelesai = waktuSelesai_dateP.getYear()+"/"+waktuSelesai_dateP.getMonth()+"/"+waktuSelesai_dateP.getDayOfMonth();
             String timeStampMulai = dateMulai+" "+waktuMulai_timeP.getCurrentHour()+":"+waktuSelesai_timeP.getCurrentMinute();
             String timeStampSelesai = dateSelesai+" "+ waktuSelesai_timeP.getCurrentHour()+":"+waktuSelesai_timeP.getCurrentMinute();
 
@@ -376,21 +466,23 @@ public class daftar_rapat extends ActionBarActivity {
             Date date = new Date();
             String tanggalBuat = dateFormat.format(date).toString(); //2014/08/06 15:59:48
             String pembuatJadwalID=ID_USER;
-            String statusRapat="1";
+            String statusRapat="0";
 
             String cor="";
             // get list of anggota rapat
-            if(listPeserta!=null) {
-                int flag = 0;
-                for (String key : listPeserta.keySet()) {
-                    if (flag > 0) cor += ",";
-                    flag++;
-                    cor += listPeserta.get(key);
-                }
+            int flag=0;
+            for(String key :listPeserta.keySet())
+            {
+                if(flag>0)cor+=",";
+                flag++;
+                cor+=listPeserta.get(key);
             }
+
+            // cor+="}";
 
 
             //putting key to json
+            json.put("idrapat",IDRAPATEDIT);
             json.put("ruangan",id_ruangan);
             json.put("aplikasi",id_aplikasi);
             json.put("dateMulai",dateMulai);
@@ -404,8 +496,7 @@ public class daftar_rapat extends ActionBarActivity {
             json.put("pembuatJadwal",pembuatJadwalID);
             json.put("statusRapat",statusRapat);
             // add array of String ID peserta rapat
-            if(listPeserta!=null)
-                json.put("listPeserta",cor);
+            json.put("listPeserta",cor);
 
 
             //  json.put("keyword", edittext_search.getText());
@@ -451,5 +542,4 @@ public class daftar_rapat extends ActionBarActivity {
         }
         //Toast.makeText(getApplicationContext(), "data sudah di submit" , Toast.LENGTH_LONG).show();
     }
-
 }
