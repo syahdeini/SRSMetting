@@ -61,5 +61,6 @@
     <string name="nama_ruangan">Nama Ruangan</string>
     <string name="nama_pembuat_jadwal">Nama Pembuat Jadwal</string>
     <string name="title_activity_edit_rapat">editRapat</string>
+    <string name="button_adminpage">Halaman Admin</string>
 
 </resources>

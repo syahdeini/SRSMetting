@@ -6,7 +6,7 @@ $data = json_decode($json);
 
 //$keyword = "%".$data->keyword."%";
 $name=$data->nama;
-$sql = "SELECT * FROM ".$db_owner."DAFTAR_USER WHERE nama=:username";
+$sql = "SELECT * FROM ".$db_owner."PESERTA WHERE NAMA_PESERTA=:username";
 
 
 $response = array();

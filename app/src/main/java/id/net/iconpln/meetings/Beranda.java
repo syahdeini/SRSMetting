@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -28,12 +31,13 @@ import srsmeeting.iconpln.net.id.srsmeeting.R;
 public class Beranda extends ActionBarActivity {
 
     Button buatJadwalBaruBtn, button_lihatJadwalRapat, button_kelolaJadwalRapat, button_cariDokumenRapat,
-            button_ubahAkun, button_logout;
+            button_ubahAkun, button_logout, button_adminpage;
     TextView textview_notifikasi;
     SessionManager session;
     HashMap<String, String> map, user;
     final ArrayList<HashMap<String, String>> MyArrList = new ArrayList<HashMap<String, String>>();
     String url;
+    String peran;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,7 @@ public class Beranda extends ActionBarActivity {
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
         user = session.getUserDetails();
-        String peran = user.get(SessionManager.KEY_PERAN);
+        peran = user.get(SessionManager.KEY_PERAN);
 
         buatJadwalBaruBtn = (Button) findViewById(R.id.jadwalBaruBtn);
         button_lihatJadwalRapat = (Button) findViewById(R.id.button_lihatJadwalRapat);
@@ -101,6 +105,27 @@ public class Beranda extends ActionBarActivity {
                 inginLogout();
             }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(peran.equals("ADM")) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.button_admin:
+                String url = "http://www.google.com";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void inginLogout() {

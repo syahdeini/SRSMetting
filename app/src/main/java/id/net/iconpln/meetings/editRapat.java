@@ -74,7 +74,7 @@ public class editRapat extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Handler_submitRapat(v);
-
+                globalVar.id_user_saver.clear();
             };
         });
         final Button managePesertaBtn = (Button)findViewById(R.id.managePesertaBtn);
@@ -86,6 +86,7 @@ public class editRapat extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                globalVar.id_user_saver.clear();
             }
         });
 
@@ -95,6 +96,7 @@ public class editRapat extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent managePesertaRapatActivity = new Intent(editRapat.this,managePesertaRapat.class);
+
                 startActivityForResult(managePesertaRapatActivity,ACTIVITY_CODE);
 //                startActivity(managePesertaRapatActivity);
             }
@@ -471,13 +473,13 @@ public class editRapat extends ActionBarActivity {
             String cor="";
             // get list of anggota rapat
             int flag=0;
-            for(String key :listPeserta.keySet())
-            {
-                if(flag>0)cor+=",";
-                flag++;
-                cor+=listPeserta.get(key);
+            if(listPeserta !=null) {
+                for (String key : listPeserta.keySet()) {
+                    if (flag > 0) cor += ",";
+                    flag++;
+                    cor += listPeserta.get(key);
+                }
             }
-
             // cor+="}";
 
 

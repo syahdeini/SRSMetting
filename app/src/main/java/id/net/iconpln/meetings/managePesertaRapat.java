@@ -1,3 +1,6 @@
+
+// Kelas ini hanya akan mengecek apakah user yang dicantumkan masuk ke golongan,
+// user/peserta dan menyimpannya pada globalVar
 package id.net.iconpln.meetings;
 
 import android.app.Activity;
@@ -42,7 +45,7 @@ public class managePesertaRapat extends ActionBarActivity {
     EditText pesertaEditText;
     ArrayList<String> ID_pesertaS= new ArrayList<String>();
     private AtomPayListAdapter adapter;
-
+    private int personTYPE;   // 0 = user, 1 = peserta
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,14 @@ public class managePesertaRapat extends ActionBarActivity {
         {
             adapter.add(new AtomPayment(key));
         }
+        for(String key :globalVar.id_peserta_saver.keySet())
+        {
+            adapter.add(new AtomPayment(key));
+        }
+        for(String key: globalVar.tambahan_peserta)
+        {
+            adapter.add(new AtomPayment(key));
+        }
 
         // Adding peserta button
         addPesertaBtn.setOnClickListener(new View.OnClickListener(){
@@ -63,7 +74,6 @@ public class managePesertaRapat extends ActionBarActivity {
             public void onClick(View v) {
                 pesertaEditText = (EditText)findViewById(R.id.namaPesertaEditText);
                 Name_userNow=pesertaEditText.getText().toString();
-                FLAG=-1;
                 pesertaEditText.setText("");
                 new checkUser().execute();
             }
@@ -108,7 +118,17 @@ public class managePesertaRapat extends ActionBarActivity {
 
     public void removeAtomPayOnClickHandler(View v) {
         AtomPayment itemToRemove = (AtomPayment)v.getTag();
-        globalVar.id_user_saver.remove(itemToRemove.getName());
+        if(globalVar.id_user_saver.containsKey(itemToRemove.getName()))
+        {
+            globalVar.id_user_saver.remove(itemToRemove.getName());
+        }
+        else if(globalVar.id_peserta_saver.containsKey(itemToRemove.getName())){
+            globalVar.id_peserta_saver.remove(itemToRemove.getName());
+        } else if(globalVar.tambahan_peserta.contains(itemToRemove.getName()))
+        {
+            globalVar.tambahan_peserta.remove(itemToRemove.getName());
+        }
+
         adapter.remove(itemToRemove);
     }
 
@@ -118,7 +138,8 @@ public class managePesertaRapat extends ActionBarActivity {
         atomPaysListView.setAdapter(adapter);
     }
 
-// Buat thread yang mengecek apakah nama ada di User table, kalo ada ambil ID user tersebut
+    ////////////////////////////////////////////////////////////////////////////
+/// Buat thread yang mengecek apakah nama ada di User table, kalo ada ambil ID user tersebut
 
     class checkUser extends AsyncTask<String, String, String> {
         ProgressDialog pDialog;
@@ -150,12 +171,34 @@ public class managePesertaRapat extends ActionBarActivity {
 
 
                 if (success.equals("1")) {
+                    // user ditemukan
+                    personTYPE=0;
+
                     ID_userNow=json.getString("ID_USER");
-                    FLAG=1;
                     Log.e("debug", "nama ditemukan success");
-//                    Toast.makeText(getApplicationContext(), "registrasi berhasil", Toast.LENGTH_LONG).show();
-                    //finish();
                 } else {
+                    // check di table peserta
+                    url = "http://" + globalVar.serverIPaddress + "/meetings/checkPeserta.php";
+                    try {
+                        postData(url);
+                        json = new JSONObject(text);
+                        success = json.getString("success");
+                        if(success.equals("1"))
+                        {
+                            ID_userNow=json.getString("ID_USER");
+                            // orang termasuk kategori peserta
+                            personTYPE=1;
+                        }
+                        else    // peserta di tambahkan
+                        {
+                            personTYPE=-1;
+
+                        }
+
+                    }catch (Exception e)
+                    {
+                        Log.e("ERROR MANAGE PESERTA","ERROR CHECK PESERTA");
+                    }
                     Log.e("error", "php tidak mengembalikan succes 1 ");
                 }
             } catch (Exception e) {
@@ -170,16 +213,24 @@ public class managePesertaRapat extends ActionBarActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             pDialog.dismiss();
-            if(success==null)
+            if (success == null)
                 return;
-            // back to login
-            if(FLAG==1) {
+            // add orang ke variable static globalVar
+            if (personTYPE == 0) {      // Add ke tabel user
                 adapter.add(new AtomPayment(Name_userNow));
-                globalVar.id_user_saver.put(Name_userNow,ID_userNow);
+                globalVar.id_user_saver.put(Name_userNow, ID_userNow);
                 ID_pesertaS.add(ID_userNow);
             }
-            else
-                Toast.makeText(getApplicationContext(),"nama user tidak ditemukan", Toast.LENGTH_LONG).show();
+            else if(personTYPE==1){ // add ke tabel perserta
+                adapter.add(new AtomPayment(Name_userNow));
+                globalVar.id_peserta_saver.put(Name_userNow,ID_userNow);
+
+            }
+            else if(personTYPE==-1) { // add ke tabel tambah
+                adapter.add(new AtomPayment(Name_userNow));
+                globalVar.tambahan_peserta.add(Name_userNow);
+            }
+            Toast.makeText(getApplicationContext(), "User ditambahkan", Toast.LENGTH_LONG).show();
 
             //  Toast.makeText(getApplicationContext(), "NIPG/Kata sandi tidak sesuai", Toast.LENGTH_LONG).show();
 
