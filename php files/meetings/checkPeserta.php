@@ -5,8 +5,8 @@ $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
 
 //$keyword = "%".$data->keyword."%";
-$name=$data->nama;
-$sql = "SELECT * FROM ".$db_owner."PESERTA WHERE NAMA_PESERTA=:username";
+$name="%".$data->nama."%";
+$sql = "SELECT * FROM ".$db_owner."PESERTA WHERE NAMA_PESERTA LIKE :username";
 
 
 $response = array();

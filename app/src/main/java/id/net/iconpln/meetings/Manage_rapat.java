@@ -238,8 +238,7 @@ public class Manage_rapat extends ActionBarActivity {
                     runOnUiThread(new Runnable() {
                         public void run() {
                             //messageText.setText("Got Exception : see logcat ");
-                            Toast.makeText(Manage_rapat.this, "Got Exception : see logcat ",
-                                    Toast.LENGTH_SHORT).show();
+                         //   Toast.makeText(Manage_rapat.this, "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();
                         }
                     });
                     Log.e("Unggah berkas ke server Exception", "Exception : "

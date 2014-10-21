@@ -5,15 +5,37 @@ include "koneksi.php";
 $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
 
+
+
 $id_rapat=$data->idrapat;
-// getting data from json
+
+
+// Deleting data before updating
+	$sqlDel="DELETE FROM ".$db_owner."RAPAT_USER WHERE  ID_RAPAT=:id_rapat";
+	$compiled = oci_parse($conn, $sqlDel);
+	oci_bind_by_name($compiled, ':id_rapat', $id_rapat);
+	oci_execute($compiled);
+	oci_commit($conn);
+	
+	$sqlDel="DELETE FROM ".$db_owner."RAPAT_PESERTA WHERE  ID_RAPAT=:id_rapat";
+	$compiled = oci_parse($conn, $sqlDel);
+	oci_bind_by_name($compiled, ':id_rapat', $id_rapat);
+	oci_execute($compiled);
+	oci_commit($conn);
+
+
+
+
+
 if($data->listUser!="")
 	$listUser = explode(",",$data->listUser);
-else if($data->listPeserta!="")
+if($data->listPeserta!="")
 	$listPeserta = explode(",",$data->listPeserta);
-else if($data->tambahanPeserta!="")
-	$listTambahanPeserta = explode(",",$data->listTambahanPeserta);
+if($data->tambahanPeserta!="")
+	$listTambahanPeserta = explode(",",$data->tambahanPeserta);
 
+	
+	
 	// update list User
 	if($data->listUser!="")
 	{
@@ -24,7 +46,7 @@ else if($data->tambahanPeserta!="")
 				for($j=0;$j<$sizeList;$j++)
 				{
 				// awalnya rapat peserta
-					$sqlOnes="INSERT INTO ".$db_owner."RAPAT_USER (ID_PESERTA,ID_RAPAT,STATE_RP) VALUES(:id_peserta,:id_rapat,0)";
+					$sqlOnes="INSERT INTO ".$db_owner."RAPAT_USER (ID_USER,ID_RAPAT,STATE_RU) VALUES(:id_peserta,:id_rapat,0)";
 					$compiled2 = oci_parse($conn, $sqlOnes);
 					oci_bind_by_name($compiled2, ':id_peserta', $listUser[$j]);
 					oci_bind_by_name($compiled2, ':id_rapat', $id_rapat);
@@ -72,17 +94,15 @@ else if($data->tambahanPeserta!="")
 					$resultExec1=oci_execute($compiled1);
 					$row1= oci_fetch_row($compiled1);
 					$val= (int)$row1[0]+1;
-					$id_user="USR".$val;
+					$id_user="PST-".$val;
+					oci_commit($conn);
 					
 					$sql1="INSERT INTO ".$db_owner."PESERTA VALUES (:iduser,:namauser)";
-					$compiled1 = oci_parse($conn, $sql1);
-					$resultExec1=oci_execute($compiled1);
+					$compiled1 = oci_parse($conn, $sql1);					
 					oci_bind_by_name($compiled1,':iduser',$id_user);
 					oci_bind_by_name($compiled1,':namauser',$listTambahanPeserta[$j]);
-					$row1= oci_fetch_row($compiled1);
-					$val= (int)$row1[0]+1;
-					$id_user="USR".$val;
-					
+					$resultExec1=oci_execute($compiled1);
+					oci_commit($conn);
 					
 				// awalnya rapat peserta
 					$sqlOnes="INSERT INTO ".$db_owner."RAPAT_PESERTA (ID_PESERTA,ID_RAPAT,STATE_RP) VALUES(:id_peserta,:id_rapat,0)";

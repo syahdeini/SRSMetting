@@ -28,7 +28,7 @@ $password = 'c';
 */
 
 $sql = "INSERT INTO ".$db_owner."DAFTAR_USER ".
-       "(id_user,id_divisi,nama,username,pass,email) VALUES (:iduser,:divisi,:fullName,:username,:password,:email)";
+       "(id_user,id_divisi,nama,username,pass,email) VALUES (:iduser,:divisi,LOWER(:fullName),LOWER(:username),:password,LOWER(:email))";
 	   	   
 $compiled = oci_parse($conn, $sql);
 

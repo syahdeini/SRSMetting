@@ -142,12 +142,17 @@
                     android:text="@string/textview_aplikasi"
                     android:id="@+id/textView5"
                     android:textStyle="bold"/>
-                <Spinner
+                <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/aplikasiSpinner"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editTextAplikasi"
                     android:layout_marginLeft="55dp"
-                    android:layout_marginStart="55dp"/>
+                    android:ems="10"
+                    android:textSize="15dp"
+                    android:layout_marginStart="55dp"
+                    android:width="330dp"
+                    />
+
             </LinearLayout>
 
             <LinearLayout

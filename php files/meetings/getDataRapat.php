@@ -2,10 +2,6 @@
 
 // mengambil 2 hal, ruangan dan aplikasi
 include "koneksi.php";
-//$json = $_SERVER['HTTP_JSON'];
-//$data = json_decode($json);
-
-//$keyword = "%".$data->keyword."%";
 
 $sql = "SELECT * FROM ".$db_owner."RUANGAN";
 $sql2= "SELECT * FROM ".$db_owner."APLIKASI";		

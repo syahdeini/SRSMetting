@@ -5,18 +5,26 @@ $json = $_SERVER['HTTP_JSON'];
 $data = json_decode($json);
 
  //getting data from android, 
-$ruangan = $data->ruangan;
+
+ $ruangan = $data->ruangan;
 $aplikasi = $data->aplikasi;
 $dateMulai = $data->dateMulai;
 $dateSelesai= $data->dateSelesai;
 $timeStampMulai= $data->timeStampMulai;
 $timeStampSelesai = $data->timeStampSelesai;
 $perihal = $data->perihal;
+if($perihal==NULL || $data->perihal=="" || is_null($data->perihal))
+	$perihal="none";
 $penanggungJawab = $data->penanggungJawab;
+if($penanggungJawab==NULL  || $data->penanggungJawab=="" || is_null($data->perihal))
+	$penanggungJawab="none";
 $resumeHasil = $data->resumeHasil;
+//if($resumeHasil==NULL || $data->resumeHasil || is_null($data->perihal))// . 
+	//$resumeHasil="none";
 $tanggalBuatRapat = $data->tanggalBuatRapat;
 $pembuatJadwal = $data->pembuatJadwal;
 $statusRapat = $data->statusRapat; // convert to integer
+
 
 
 // UNTUK MENGECEK APAKAH RAPAT BERTABRAKAN 
@@ -108,9 +116,58 @@ else
 
 
 	$resultExec=oci_execute($compiled);
-	
-	
-	
+
+	// submit aplikasi
+	if($aplikasi!=null && $resultExec==True)
+	{
+		$listAplikasi=explode(',',$aplikasi);
+		for($i=0;$i<count($listAplikasi);$i++)
+		{
+			//print $listAplikasi[$i]."<br>";
+		
+			$sql="SELECT * FROM ".$db_owner."APLIKASI WHERE NAMA_APLIKASI LIKE :namaAplikasi";
+			$compiled = oci_parse($conn,$sql);
+			oci_bind_by_name($compiled,':namaAplikasi',$listAplikasi[$i]);
+			oci_execute($compiled);
+			$row=oci_fetch_row($compiled);
+			if($row[0]!=null)
+			{
+				$row=oci_fetch_row($compiled);
+				//print $row[0];
+				$sqlInner="INSERT INTO ".$db_owner."RAPAT_APLIKASI VALUES(:idRapat,:idAplikasi,0)";
+				$compiledInner=oci_parse($conn,$sqlInner);
+				oci_bind_by_name($compiledInner,':idRapat',$id_rapat);
+				oci_bind_by_name($compiledInner,':idAplikasi',$row[0]);
+				oci_execute($compiledInner);
+				
+			}
+			else
+			{	//print $listAplikasi[$i]."<br>";
+			//print $listAplikasi[$i]."<br>";
+				$sql="SELECT COUNT(*) FROM ".$db_owner."APLIKASI";
+				$compiledCount=oci_parse($conn,$sql);
+				oci_execute($compiledCount);
+				$row1= oci_fetch_row($compiledCount);
+				$val= (int)$row1[0]+1;
+				$id_applikasi="APP".$val;
+				oci_commit($conn);
+				
+				
+				$sql="INSERT INTO ".$db_owner."APLIKASI VALUES(:idAplikasi,:namaAplikasi)";
+				$compiled2=oci_parse($conn,$sql);
+				oci_bind_by_name($compiled2,':idAplikasi',$id_applikasi);
+				oci_bind_by_name($compiled2,':namaAplikasi',$listAplikasi[$i]);
+				oci_execute($compiled2);
+				
+				
+				$sqlInner="INSERT INTO ".$db_owner."RAPAT_APLIKASI VALUES(:idRapat,:idAplikasi,0)";
+				$compiledInner=oci_parse($conn,$sqlInner);
+				oci_bind_by_name($compiledInner,':idRapat',$id_rapat);
+				oci_bind_by_name($compiledInner,':idAplikasi',$id_applikasi);
+				oci_execute($compiledInner);
+			}
+		}
+	}
 
 	if ($resultExec==true) {
 		$response["success"] = "1";

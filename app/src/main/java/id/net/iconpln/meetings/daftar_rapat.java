@@ -40,9 +40,10 @@ import srsmeeting.iconpln.net.id.srsmeeting.R;
 public class daftar_rapat extends ActionBarActivity {
 
     SessionManager session;
-    ProgressDialog pDialog;
+
     String url;
     String text;
+    ProgressDialog pDialog;
     HashMap<String, String> map, user,dictAplikasi,dictRuangan;
     final ArrayList<HashMap<String, String>> MyArrListAplikasi = new ArrayList<HashMap<String, String>>();
     final ArrayList<HashMap<String, String>> MyArrListRuangan = new ArrayList<HashMap<String, String>>();
@@ -53,7 +54,7 @@ public class daftar_rapat extends ActionBarActivity {
     private String ID_USER;
     //GUI Object
     Spinner ruanganSpinner;
-    Spinner aplikasiSpinner;
+  //  Spinner aplikasiSpinner;
     int ACTIVITY_CODE=655;
     int ADA_RAPAT=0;
     String rapatIDforPeserta="";
@@ -85,6 +86,7 @@ public class daftar_rapat extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 //globalVar.id_user_saver.clear();
+                globalVar.deleteAll();
                 finish();
 
             }
@@ -149,61 +151,8 @@ public class daftar_rapat extends ActionBarActivity {
    ////////////////////////////////////////////////////////////////////////////
     /****************************************************************/
 
-    public void postData(String url) throws JSONException {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(url);
-        JSONObject json = new JSONObject();
 
-        try {
-            // JSON data:
-
-            // putting JSON as parameter to php
-
-            //  json.put("keyword", edittext_search.getText());
-            JSONArray postjson=new JSONArray();
-            postjson.put(json);
-
-            // Post the data:
-            httppost.setHeader("json",json.toString());
-            httppost.getParams().setParameter("jsonpost",postjson);
-
-            // Execute HTTP Post Request
-            System.out.print(json);
-            HttpResponse response = httpclient.execute(httppost);
-
-            // for JSON:
-            if(response != null)
-            {
-                InputStream is = response.getEntity().getContent();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-                StringBuilder sb = new StringBuilder();
-
-                String line = null;
-                try {
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line + "\n");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                text = sb.toString();
-            }
-        }catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
-    }
-
-    // class for handling another thread
+    /////  class for populating all atribute, di panggil di awal //////////////////////////
     public class getData extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
@@ -272,20 +221,70 @@ public class daftar_rapat extends ActionBarActivity {
     // Populate Method
     private void populateView() {
         ruanganSpinner = (Spinner)findViewById(R.id.ruanganSpinner);
-        aplikasiSpinner=(Spinner)findViewById(R.id.aplikasiSpinner);
+   //     aplikasiSpinner=(Spinner)findViewById(R.id.aplikasiSpinner);
         String[] dummyStr=nama_ruanganList.toArray(new String[nama_ruanganList.size()]);
         RuanganArrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,dummyStr);//nama_ruanganList.toArray(new String[nama_ruanganList.size()]));
         ruanganSpinner.setAdapter(RuanganArrayAdapter);
         dummyStr=nama_aplikasiList.toArray(new String[nama_aplikasiList.size()]);
-        ApliasiArrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,dummyStr);
-        aplikasiSpinner.setAdapter(ApliasiArrayAdapter);
+  //      ApliasiArrayAdapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,dummyStr);
+//        aplikasiSpinner.setAdapter(ApliasiArrayAdapter);
     }
+    public void postData(String url) throws JSONException {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost(url);
+        JSONObject json = new JSONObject();
 
+        try {
+            // JSON data:
 
+            // putting JSON as parameter to php
 
-    ////////////////////////////////////////////////////////////////
+            //  json.put("keyword", edittext_search.getText());
+            JSONArray postjson=new JSONArray();
+            postjson.put(json);
+
+            // Post the data:
+            httppost.setHeader("json",json.toString());
+            httppost.getParams().setParameter("jsonpost",postjson);
+
+            // Execute HTTP Post Request
+            System.out.print(json);
+            HttpResponse response = httpclient.execute(httppost);
+
+            // for JSON:
+            if(response != null)
+            {
+                InputStream is = response.getEntity().getContent();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                StringBuilder sb = new StringBuilder();
+
+                String line = null;
+                try {
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        is.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                text = sb.toString();
+            }
+        }catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+    }
+    ////////////////////////////////////////////////////////////////////
+
     /////////// FOR SUBMITTING DATA ///////////////////////////////
-    /////////////////////////////////////////////////////////////////
     public class submitData extends AsyncTask<String, String, String> {
 
 
@@ -313,11 +312,13 @@ public class daftar_rapat extends ActionBarActivity {
 
 
                 String checkResponse = json.getString("adaRapat");
-                rapatIDforPeserta=json.getString("idrapat");
+
                 if (checkResponse.equals("1")) { //berarti rapat tersedia
                     ADA_RAPAT = 1;
                     return null;
                 }
+                else
+                    rapatIDforPeserta=json.getString("idrapat");
             }catch(Exception e)
             {
                 Log.e("TEST ERROR","CHECK RAPAT");
@@ -345,8 +346,6 @@ public class daftar_rapat extends ActionBarActivity {
             //populateView();
         }
     }
-
-    ///////////////////////////////////////////////////
     public void postDataSubmitRapat(String url) throws JSONException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
@@ -360,12 +359,14 @@ public class daftar_rapat extends ActionBarActivity {
             DatePicker waktuSelesai_dateP = (DatePicker)findViewById(R.id.WaktuSelesai_datePicker);
             TimePicker waktuMulai_timeP = (TimePicker)findViewById(R.id.WaktuMulai_timePicker);
             TimePicker waktuSelesai_timeP = (TimePicker)findViewById(R.id.WaktuSelesai_timePicker);
+            EditText editTextAplikasi = (EditText)findViewById(R.id.editTextAplikasi);
 
             //ambil ID ruangan berdasarkan nama ruangan
             String id_ruangan=dictRuangan.get(ruanganSpinner.getSelectedItem().toString());
 
             //ambil ID aplikasi berdasarkan nama aplikasi
-            String id_aplikasi=dictAplikasi.get(aplikasiSpinner.getSelectedItem().toString());
+            //String id_aplikasi=dictAplikasi.get(aplikasiSpinner.getSelectedItem().toString());
+            String id_aplikasi=editTextAplikasi.getText().toString();
 
 
             int dateMulai_moth=waktuMulai_dateP.getMonth()+1;
@@ -406,8 +407,14 @@ public class daftar_rapat extends ActionBarActivity {
             json.put("dateSelesai",dateSelesai);
             json.put("timeStampMulai",timeStampMulai);
             json.put("timeStampSelesai",timeStampSelesai);
-            json.put("perihal",perihal);
-            json.put("penanggungJawab",penanggungJawab);
+            if(perihal!=null)
+                json.put("perihal",perihal);
+            else
+                json.put("perihal","");
+            if(penanggungJawab!=null)
+                json.put("penanggungJawab",penanggungJawab);
+            else
+                json.put("penanggungJawab","");
             json.put("resumeHasil",resumeHasil);
             json.put("tanggalBuatRapat",tanggalBuat);
             json.put("pembuatJadwal",pembuatJadwalID);
@@ -460,22 +467,19 @@ public class daftar_rapat extends ActionBarActivity {
         //Toast.makeText(getApplicationContext(), "data sudah di submit" , Toast.LENGTH_LONG).show();
     }
 
+    ///////////////////////////////////////////////////
 
-    ////////////////////////////////////////////////////////////////
     //// FOR SUBMITTING DATA PESERTA ////////////////////////////////
-    /////////////////////////////////////////////////////////////////
-
-
     public class submitPesertaData extends AsyncTask<String, String, String> {
-
+        ProgressDialog pDialogPeserta;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(daftar_rapat.this);
-            pDialog.setMessage("Submitting Peserta");
-            pDialog.setCancelable(false);
-            pDialog.show();
+            pDialogPeserta = new ProgressDialog(daftar_rapat.this);
+            pDialogPeserta.setMessage("Submitting Peserta");
+            pDialogPeserta.setCancelable(false);
+            pDialogPeserta.show();
         }
         /////////////////////////////////////////////////
         @Override
@@ -498,23 +502,17 @@ public class daftar_rapat extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if (pDialog.isShowing())
-                pDialog.dismiss();
- /*           if(ADA_RAPAT==1) {
-                Toast.makeText(getApplicationContext(), "Tempat dan waktu yang dinginkan tidak tersedia", Toast.LENGTH_LONG).show();
-                ADA_RAPAT=0;
-            }
-            else
-                new submitPesertaData().execute();
-*/
-            globalVar.id_user_saver.clear();
+            if (pDialogPeserta.isShowing())
+                pDialogPeserta.dismiss();
+
+            // is it error
+           globalVar.id_user_saver.clear();
             globalVar.id_peserta_saver.clear();
-            globalVar.tambahan_peserta.clear();
+           globalVar.tambahan_peserta.clear();
             finish();
             //populateView();
         }
     }
-
     public void postDataSubmitPeserta(String url) throws JSONException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
@@ -558,7 +556,7 @@ public class daftar_rapat extends ActionBarActivity {
                 }
             }
 
-
+            // putting data to json
              json.put("listUser",corUser);
              json.put("listPeserta",corPeserta);
              json.put("tambahanPeserta",corTambahanPeserta);
@@ -572,10 +570,9 @@ public class daftar_rapat extends ActionBarActivity {
             httppost.getParams().setParameter("jsonpost",postjson);
 
             // Execute HTTP Post Request
-            //  System.out.print(json);
             HttpResponse response = httpclient.execute(httppost);
 
-            // for JSON:
+            // Get Response
             if(response != null)
             {
                 InputStream is = response.getEntity().getContent();
@@ -603,9 +600,9 @@ public class daftar_rapat extends ActionBarActivity {
             // TODO Auto-generated catch block
         } catch (IOException e) {
             // TODO Auto-generated catch block
-        }
+        }        Log.d("DEBUG SELF",text);
         //Toast.makeText(getApplicationContext(), "data sudah di submit" , Toast.LENGTH_LONG).show();
     }
-
+    /////////////////////////////////////////////////////////////////////////////
 
 }
