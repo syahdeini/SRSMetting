@@ -163,7 +163,7 @@ public class Beranda extends ActionBarActivity {
                     aMyArrList.get("nama_ruangan") + "<br/><br/>";
             notifikasi.append(Html.fromHtml(temp));
         }
-        if(MyArrList.size() == 0)
+        if (MyArrList.size() == 0)
             notifikasi.append("(tidak ada rapat)");
         textview_notifikasi.setText(notifikasi);
     }
