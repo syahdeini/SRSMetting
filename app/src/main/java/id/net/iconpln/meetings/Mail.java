@@ -39,7 +39,7 @@ public class Mail extends javax.mail.Authenticator {
         _port = "465";
         _sport = "465";
         _to = new String[0];
-        _to[0]="wilik016@gmail.com";
+        _to[0]="emailAnda@gmail.com";
         _user =globalVar.emailAddressPengirim;
         _pass = globalVar.passwordEmail;
         _from = globalVar.emailAddressPengirim;
